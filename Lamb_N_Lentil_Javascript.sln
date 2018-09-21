@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A8E2110-6636-44A7-8DCB-A85B8E696005}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebSite2", "WebSite2\", "{7A921375-634E-442E-8578-5600A3513894}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.2"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_51771"
+		Debug.AspNetCompiler.PhysicalPath = "WebSite2\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51771\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_51771"
+		Release.AspNetCompiler.PhysicalPath = "WebSite2\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51771\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "51771"
+		SlnRelativePath = "WebSite2\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UsdaFoodLists", "UsdaFoodLists", "{9D047D61-33B9-4965-82B2-88AA74BE8DCE}"
+	ProjectSection(SolutionItems) = preProject
+		..\Lamb_N_Lentil\Butter.json = ..\Lamb_N_Lentil\Butter.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UsdaFoodReports", "UsdaFoodReports", "{6F212E31-C8C4-4563-B12B-1EC5980F0FD7}"
+	ProjectSection(SolutionItems) = preProject
+		..\Lamb_N_Lentil\CheddarCheeseFullReport01009.json = ..\Lamb_N_Lentil\CheddarCheeseFullReport01009.json
+		..\Lamb_N_Lentil\GreatValueFatFreeBeans45066323.json = ..\Lamb_N_Lentil\GreatValueFatFreeBeans45066323.json
+		..\Lamb_N_Lentil\GreatValueOriginalSaltines4502577.json = ..\Lamb_N_Lentil\GreatValueOriginalSaltines4502577.json
+		..\Lamb_N_Lentil\GVChiliBeans45066324.json = ..\Lamb_N_Lentil\GVChiliBeans45066324.json
+		..\Lamb_N_Lentil\GVChiliBeansInTomatoSauce.json = ..\Lamb_N_Lentil\GVChiliBeansInTomatoSauce.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A921375-634E-442E-8578-5600A3513894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A921375-634E-442E-8578-5600A3513894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9D047D61-33B9-4965-82B2-88AA74BE8DCE} = {1A8E2110-6636-44A7-8DCB-A85B8E696005}
+		{6F212E31-C8C4-4563-B12B-1EC5980F0FD7} = {1A8E2110-6636-44A7-8DCB-A85B8E696005}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1EDAB084-F32F-4D41-BD00-D5EC3946FF8A}
+	EndGlobalSection
+EndGlobal
