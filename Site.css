@@ -35,14 +35,127 @@ footer{
         background-color: antiquewhite;
     }
 
-.foodReport {
+/*.foodReport {
     font-family: Arial;
     background-color: white;
     border: 1px black solid;
     color: black; 
+    padding:15px;
+    width:40%;
 }
-        .foodReport h2, .foodReport h3 {
-            font-family: Arial;
-            background-color: white; 
-            color: black;
+    .foodReport h1, .foodReport h2, .foodReport h3 {
+        font-family: Arial;
+        background-color: white;
+        color: black;
+    }
+    .foodReport h1{
+         margin-left:-2px; 
+    }
+        .foodReport .hr{ 
+            background-color:black;
+            min-height:1px;
+            margin-top:-15px;
+            margin-bottom:30px;
         }
+    .foodReport .hrWide {
+        background-color: black;
+        min-height: 10px;
+        margin-top: 0;
+    }
+    .foodReport .hrThin {
+        background-color: black;
+        min-height: 5px;
+        margin-top: -5px;
+    } 
+}
+#AmountPerServing { 
+   color:red;
+    height:50px;
+}
+
+#Calories {
+    float: right;
+    text-align: right;
+    font-size: 4em; /* 10 too big 
+    font-weight: bold;
+    padding-bottom: 5px;
+} 
+
+#percentDailyValue {
+   text-align:right;
+}
+
+.reallyBigFont{
+    font-size:2em;
+}*/
+
+.rightjustify {
+    display: inline-block;
+    float:right; 
+    clear:both;
+}
+
+
+html, body, h1, h2, h3, h4, h5, h6, table, a, nav {
+    font-family: 'Lucida Handwriting';
+    color: green;
+    background-color: lightgoldenrodyellow;
+    margin-left: 1%;
+    margin-bottom: 1%;
+}
+
+.foodReport {
+    font-family: Arial;
+    background-color: white;
+    color: black;
+}
+
+    .foodReport h1 {
+        font-family: Arial;
+        background-color: white;
+        color: black;
+        margin-left: -2px;
+    }
+
+    .foodReport .hr {
+        background-color: black;
+        min-height: 1px;
+        margin-top: -15px;
+        margin-bottom: 30px;
+    }
+
+    .foodReport .hrWide {
+        background-color: black;
+        min-height: 5px;
+        margin-top: 0;
+    }
+
+    .foodReport .hrThin {
+        background-color: black;
+        min-height: 5px;
+        margin-top: -5px;
+    }
+
+    .foodReport #AmountPerServing {
+        font-weight: bold; 
+    }
+
+    .foodReport #Calories {
+        font-size: 200%;
+        font-weight: bold;
+        padding-bottom: 5px;
+    }
+
+    .foodReport #percentDailyValue {
+        text-align: right;
+    }
+
+
+    .foodReport #caloriesNumber {
+        float: right;
+        border: 1px dashed orange;
+        text-align: right;
+        font-size: 160%;
+        padding-top: 0;
+        margin-top: -0.9%;
+    }

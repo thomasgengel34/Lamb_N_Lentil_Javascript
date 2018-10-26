@@ -1,75 +1,62 @@
 ﻿"use strict";
 
-var stringResult = "";
-var ndbno = "";
-var i;
-var key = "sFtfcrVdSOKA4ip3Z1MlylQmdj5Uw3JoIIWlbeQm";
+var getKey = function () {
+    const key = "sFtfcrVdSOKA4ip3Z1MlylQmdj5Uw3JoIIWlbeQm";
+    return key;
+};
 
 (function () {
-
-
-    $(document).on("click", "#ingredientSearchSubmitBtn", function () {
-        var searchTerm = $('#foodsSearchBox').val();
-
-        var defaultCount = 50;
-        var string1 = "https://api.nal.usda.gov/ndb/search?format=json&q=";
-        var string2 = "&max=" + defaultCount + "&offset=0&api_key=";
-        var searchUrl = string1.concat(searchTerm, string2, key);
-        var xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                var result = this.responseText;
-                displayList(result);
-            }
-        };
-        xhttp.open('GET', searchUrl);
-        xhttp.send();
-    }
-    );
-    // note that the USDA json files are not necessarily correct json, and errors have been seem by me too many times. I need to write my own methods.
-
-    function parseResult(result) {
-        return String(result);
-    }
-
-    function displayList(result) {
-        stringResult = parseResult(result);
-
-        var toUI;
-        if (stringResult.indexOf("error") !== -1) {
-            var errorMessage = "Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.";
-            toUI = errorMessage;
-        }
-        else {
-            toUI = "Search Term : " + displayQuery(stringResult);
-            toUI = toUI + "  Total Found: " + displayTotal(stringResult) + "  ";
-        }
-
-        $('#results').text(toUI);
-        addListSearchButton("Show First Fifty Results");
-
-
-        $('#displayAboutPage').hide();
-    }
-
-    function displayQuery(stringResult) {
-        var index = stringResult.indexOf('"q": "');
-        var searchQuery = stringResult.slice(index + 6, 100);
-        index = searchQuery.indexOf('",');
-        searchQuery = searchQuery.slice(0, index);
-        return searchQuery;
-    }
-
-    function displayTotal(stringResult) {
-        var index = stringResult.indexOf('total');
-        var searchTotal = stringResult.slice(index + 8);
-        index = searchTotal.indexOf(',');
-        searchTotal = searchTotal.slice(0, index);
-        ndbno = Array[searchTotal];
-        return searchTotal;
-    }
+    $('#displayAboutPage').hide();
 })();
+
+// note that the USDA json files are not necessarily correct json, and errors have been seen by me too many times. I need to write my own methods.
+
+
+var displayList = function (stringResult) { 
+   var toUI = checkForErrorReturned(stringResult);
+    if (toUI==="") {
+        toUI = "Search Term : " + displayQuery(stringResult);
+        var total = displayTotal(stringResult);
+        toUI = toUI + "  Total Found: " + total + "  "; 
+        $('#results').text(toUI); 
+        var text = populateResultsButtonText(total);
+        addListSearchButton(resultsButtonText);
+    }
+};
+
+var checkForErrorReturned = function (incoming) {
+    var message = ""; 
+    if (incoming.indexOf("error") !== -1) {
+        var errorMessage = "Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.";
+        message= errorMessage;
+    }
+    return message;
+};
+
+var populateResultsButtonText = function (total) {
+    var text = "Show First Fifty Results";
+    if (total===50) {
+        text = "Show Fifty Results";
+    }
+    if (total < 50 && total > 1) {
+        text = "Show the " + total + " Results";
+    }
+    if (total - 1 < 1) {
+       text = "Show Result";
+    }
+    return text;
+};
+
+
+
+function buildFoodListSearchUrl(searchTerm) {
+    var defaultCount = 50;
+    var key = getKey();
+    var string1 = "https://api.nal.usda.gov/ndb/search?format=json&q=";
+    var string2 = "&max=" + defaultCount + "&offset=0&api_key=";
+    var searchUrl = string1.concat(searchTerm, string2, key);
+    return searchUrl;
+}
 
 function addListSearchButton(showAllResults) {
     var r = $('<input/>').attr({
@@ -95,7 +82,7 @@ function showAllResultClickListener() {
         $("#results").append("<br/>" + name);
 
         var index = item[i].indexOf('ndbno');
-        ndbno = item[i].slice(index + 9);
+        var ndbno = item[i].slice(index + 9);
 
         index = ndbno.indexOf(',');
         ndbno = ndbno.slice(0, index - 1);
@@ -117,9 +104,7 @@ function addItemDetailButton(ndbno) {
 }
 
 function showNutrientDetailsClickListener(z) {
-    var string1 = " https://api.nal.usda.gov/ndb/V2/reports?ndbno=";
-    var string2 = "&type=b&format=json&api_key=";
-    var searchUrl = string1.concat(z, string2, key);
+    var searchUrl = buildFoodReportSearchUrl(z);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -132,38 +117,83 @@ function showNutrientDetailsClickListener(z) {
     xhttp.send();
 }
 
+function buildFoodReportSearchUrl(z) {
+    var string1 = " https://api.nal.usda.gov/ndb/V2/reports?ndbno=";
+    var string2 = "&type=b&format=json&api_key=";
+    var key = getKey();
+    var searchUrl = string1.concat(z, string2, key);
+    return searchUrl;
+}
+
 function formatFoodReport(result) {
-    var formattedReport = "<div class=\"foodReport\"><h2>Nutrition Facts</h2>";
+    var tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
+    var formattedReport = "<div class=\"foodReport\"><h1>Nutrition Facts</h1><div class=\"hr\"></div>";
     var name = getValue(result, 'name', 7, 'ds', 3);
-    formattedReport +=   "<br/><strong>" + name + "</strong>";
+    formattedReport += "<br/><strong>" + name + "</strong>";
     var qty = getValue(result, 'qty', 6, 'value', 2);
+    qty = qty === 0 ? "" : qty;
     var servingSize = getValue(result, 'label', 8, "eqv", 3);
-    formattedReport += "<br/>Serving Size: " + qty + '  ' + servingSize;
-    formattedReport += "<hr>"; 
-  
-    var nutrients = getValue(result, "nutrients", 11, "footnotes", 2).split('},{');
-    var nutrient208 = getValue(result, 'nutrient_id":"208', 0, '},',0);
-    var nutrient208Measures = getValue(nutrient208, "measures", 12, '" ]', 0);  
-    var calories = getValue(nutrient208Measures, "value", 8, '}', 1);
-    formattedReport += "Amount per serving<h3>Calories</h3>" + "<h2>" + calories + "</h2>";
+    formattedReport += "<br/><strong>Serving Size: " + qty + '  ' + servingSize + "</strong>";
+    formattedReport += "<div class= hrWide></div>";
+    var calories = getNutritionalValueAndUnit(result, 208);
+    calories = calories.substring(0, calories.length - 39);
+    formattedReport += "<div class=\"hrWide\"></div > " +     //   += "<div>" +
+        "<div id=\"AmountPerServing\">Amount per serving</div>" +
+        "<div id=\"Calories\">" +
+        "<div id=\"caloriesNumber\">" +
+        calories +
+        "</div>" +
+        "Calories" +
+        "</div >";
+    formattedReport += "<div class=\"hrThin\"></div>";
+    formattedReport += "<p id=\"percentDailyValue\">% Daily Value*</p>";
     formattedReport += "<hr>";
-    formattedReport += "<p class \"right\">% Daily Value*</p>";
-    formattedReport += "<hr>";
-    var nutrient204 = getValue(result, 'nutrient_id":"204', 0, '},', 0);
-    var nutrient204Measures = getValue(nutrient204, "measures", 12, '" ]', 0); 
-    var totalFat = getValue(nutrient204Measures, "value", 8, '}', 1);
+    var totalFat = getNutritionalValueAndUnit(result, 204);
     formattedReport += "<strong>Total Fat</strong>  " + totalFat;
-    var totalFatUnit = getValue(nutrient204Measures, "eunit",8, '",', 0);
-    alert(totalFatUnit);
-    formattedReport += totalFatUnit;
-    var ingredients = getValue(result, 'ing', 20, 'upd', 3);
+    formattedReport += "<hr>";
+    var satFat = getNutritionalValueAndUnit(result, 606);
+    formattedReport += "<br/>" + tab + "Saturated Fat " + satFat;
+    formattedReport += "<hr>";
+    var transFat = getNutritionalValueAndUnit(result, 605);
+    formattedReport += "<br/>" + tab + "Trans Fat " + transFat;
+    formattedReport += "<hr>";
+    var cholesterol = getNutritionalValueAndUnit(result, 601);
+    formattedReport += "</br><strong>Cholesterol</strong> " + cholesterol;
+    formattedReport += "<hr>";
+    var sodium = getNutritionalValueAndUnit(result, 307);
+    formattedReport += "</br><strong>Sodium</strong> " + sodium;
+    formattedReport += "<hr>";
+    var totalCarbohydrate = getNutritionalValueAndUnit(result, 205);
+    formattedReport += "</br><strong>Total Carbohydrate</strong> " + totalCarbohydrate;
+    formattedReport += "<hr>";
+    var dietaryFiber = getNutritionalValueAndUnit(result, 291);
+    formattedReport += "</br>" + tab + "Dietary Fiber " + dietaryFiber;
+    formattedReport += "<hr>";
+    var totalSugars = getNutritionalValueAndUnit(result, 269);
+    formattedReport += "</br>" + tab + "Total Sugars " + totalSugars;
+    formattedReport += "<hr>" + tab + tab + "The USDA database does not yet contain information on added sugars.<hr>";
+    var protein = getNutritionalValueAndUnit(result, 203);
+    formattedReport += "</br><strong>Protein</strong> " + protein;
+    formattedReport += "<div class= hrWide></div>";
+    var vitaminD = getNutritionalValueAndUnit(result, 324);
+    var calcium = getNutritionalValueAndUnit(result, 301);
+    formattedReport += "</br> Vitamin D  " + vitaminD + "   &#9679;   " + "Calcium " + calcium;
+    formattedReport += "<hr>";
+    var iron = getNutritionalValueAndUnit(result, 303);
+    var potassium = getNutritionalValueAndUnit(result, 306);
+    formattedReport += "</br> Iron  " + iron + "   &#9679;   " + "Potassium " + potassium;
+    formattedReport += "<hr>";
+    formattedReport += "*The % Daily Value tells you how much a nutrient in a serving of food contributes to a daily diet.  2,000 calories a day is used for general nutrition advice.<hr> ";
+    var ingredients = getValue(result, 'ing', 14, 'upd', 3);
+
     formattedReport += "<br/><strong>INGREDIENTS:</strong>" + ingredients;
     var updatedDate = getValue(result, "upd", 6, 'nutrients', 4);
     formattedReport += "   updated: " + updatedDate;
     var manu = getValue(result, 'manu', 7, 'ru', 3);
     formattedReport += "<br/><strong>DISTRIBUTED BY:<br/>" + manu + "</strong>";
-    formattedReport+="</div>"
-    return formattedReport + "<br/><br/>" + result ;
+
+    formattedReport += "</div></div>";
+    return formattedReport + "<br/><br/>" + result;
 }
 
 function getValue(item, itemKey, foreCount, nextItem, backCount) {
@@ -173,3 +203,57 @@ function getValue(item, itemKey, foreCount, nextItem, backCount) {
     name = name.slice(0, index - backCount);
     return name;
 }
+
+var dv;
+
+function getNutritionalValueAndUnit(result, id) {
+
+    var n = getValue(result, 'nutrient_id":"' + id, 0, '},', 0);
+
+    var notFound = {
+        "nutrient": "none",
+        "nutrient_id": -1,
+        "unit": "g",
+        "dv": 0
+    };
+    var selected = minDailyReq.filter(val => { return val.nutrient_id === id; }) || notFound;
+
+    var dv = 0;
+    var dvUnit = "";
+    if (selected[0]) {
+        dv = selected[0].dv || 0;
+        dvUnit = selected[0].unit || "";
+    }
+
+
+    var nMeasures = getValue(n, "measures", 12, '" ]', 0);
+    var measures = getValue(nMeasures, "value", 8, '}', 1);
+    if (!measures) {
+        measures = 0;
+    }
+    var unit = getValue(nMeasures, "eunit", 8, '",', 0);
+    var percentage = "";
+    if (dv !== 0) {
+        percentage = 100 * measures / dv + "%";
+    }
+
+    var valueAndUnit = measures + unit + "<span class=\"rightjustify\">" + percentage + "</span>";
+    return valueAndUnit;
+}
+
+var displayQuery = function (goesIn) {
+    var index = goesIn.indexOf('"q": "');
+    var result = goesIn.slice(index + 6, 100);
+    index = result.indexOf('",');
+    result = result.slice(0, index);
+    return result;
+};
+
+
+var displayTotal = function (usdaFoodList) {
+    var index = usdaFoodList.indexOf('total');
+    var total = usdaFoodList.slice(index + 8, 100);
+    index = total.indexOf(',');
+    total = total.slice(0, index);
+    return total;
+};
