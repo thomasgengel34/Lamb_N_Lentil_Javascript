@@ -1,8 +1,9 @@
-﻿test("A Hello World Test", 1, function () {
+﻿/// <reference path="site.js" />
+test("A Hello World Test", 1, function () {
     equal(greeting, "Hello World", "Expect greeting of Hello World  . Tests that qunit is working Test 1.");
 });
 
-test("Test 2 Key is correct", 1, function () {
+test("Test 2 Key is correct", 1, function () { 
     var key = getKey();
     equal(key, "sFtfcrVdSOKA4ip3Z1MlylQmdj5Uw3JoIIWlbeQm", "Verify key is correct: simple variable check. ");
 });
@@ -59,7 +60,7 @@ test("Test 8 populateResultsButtonText", 7, function () {
     returned = populateResultsButtonText(total);
     equal(returned, correct);
     total = 2;
-    correct =  "Show the " + total + " Results" ;
+    correct =  "Show the " + total + " Results";
     returned = populateResultsButtonText(total);
     equal(returned, correct);
     total = 49;
@@ -74,4 +75,25 @@ test("Test 8 populateResultsButtonText", 7, function () {
     correct = "Show First Fifty Results";
     returned = populateResultsButtonText(total);
     equal(returned, correct);
+});
+
+test("Test 9 error message is correct for ingredient not found", 1, function () {
+    var arr = "qqq";
+    ingredientSearchSubmitBtn(arr);
+    var correct = "Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.";
+    var returned = $("#results").val(); 
+    alert(returned);
+    equal(returned, correct );
+});
+
+test("Test 10 on ingredient display sodium percentage is correct", 1, function () {
+    equal(0, 1, "not written");
+});
+
+test("Test 11 on ingredient display potassium percentage is correct", 1, function () {
+    equal(0, 1, "not written");
+});
+
+test("Test 12   ingredientSearchSubmitBtnClickListener() is correct", 1, function () {
+    equal(0, 1, "not written");
 });

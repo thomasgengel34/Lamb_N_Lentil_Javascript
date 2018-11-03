@@ -27,7 +27,7 @@ var minDailyReq = [
         "nutrient": "potassium",
         "nutrient_id": 306,
         "unit": "g",
-        "dv": 3.5 
+        "dv": 3500
     },
     {
         "nutrient": "protein",
@@ -39,7 +39,7 @@ var minDailyReq = [
         "nutrient": "sodium",
         "nutrient_id": 307,
         "unit": "g",
-        "dv": 2.400
+        "dv": 2400
     }, 
     {
         "nutrient": "dietary fiber",

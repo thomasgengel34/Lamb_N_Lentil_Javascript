@@ -6,43 +6,69 @@ var getKey = function () {
 };
 
 (function () {
-    $('#displayAboutPage').hide();
+    $('#displayAboutPage').hide(); 
+    
 })();
 
 // note that the USDA json files are not necessarily correct json, and errors have been seen by me too many times. I need to write my own methods.
+$('#foodsSearchSubmitBtn').click(ingredientSearchSubmitBtnClickListener);
+
+function ingredientSearchSubmitBtnClickListener() { 
+    let search  = $('#foodsSearchTextBox').val(); 
+    ingredientSearchSubmitBtn(search);
+}
+
+function ingredientSearchSubmitBtn(search) { 
+    var searchUrl = buildFoodListSearchUrl(search);
+    //var xhttp = new XMLHttpRequest();
+    //xhttp.onreadystatechange = function () {
+    //    if (this.readyState === 4 && (this.status === 0 || this.status === 200)) {
+    //        showAllResultClickListener(this.responseText);
+    //    }
+    //};
+    //xhttp.open('GET', searchUrl);
+    //xhttp.send();
+    fetch(searchUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (myJson) {
+            showAllResultClickListener(JSON.stringify(myJson));   // following method not reading data, need to add error handling and other header info.  Fetch however is working just fine. 
+        });
+}
 
 
-var displayList = function (stringResult) { 
-   var toUI = checkForErrorReturned(stringResult);
-    if (toUI==="") {
+var displayList = function (stringResult) {
+    var toUI = checkForErrorReturned(stringResult);
+    if (toUI === "") {
         toUI = "Search Term : " + displayQuery(stringResult);
         var total = displayTotal(stringResult);
-        toUI = toUI + "  Total Found: " + total + "  "; 
-        $('#results').text(toUI); 
+        toUI = toUI + "  Total Found: " + total + "  ";
+        $('#results').text(toUI);
         var text = populateResultsButtonText(total);
         addListSearchButton(resultsButtonText);
     }
 };
 
 var checkForErrorReturned = function (incoming) {
-    var message = ""; 
+    var message = "";
     if (incoming.indexOf("error") !== -1) {
         var errorMessage = "Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.";
-        message= errorMessage;
+        message = errorMessage;
     }
     return message;
 };
 
 var populateResultsButtonText = function (total) {
     var text = "Show First Fifty Results";
-    if (total===50) {
+    if (total === 50) {
         text = "Show Fifty Results";
     }
     if (total < 50 && total > 1) {
         text = "Show the " + total + " Results";
     }
     if (total - 1 < 1) {
-       text = "Show Result";
+        text = "Show Result";
     }
     return text;
 };
@@ -54,7 +80,7 @@ function buildFoodListSearchUrl(searchTerm) {
     var key = getKey();
     var string1 = "https://api.nal.usda.gov/ndb/search?format=json&q=";
     var string2 = "&max=" + defaultCount + "&offset=0&api_key=";
-    var searchUrl = string1.concat(searchTerm, string2, key);
+    var searchUrl = string1.concat(searchTerm, string2, key); 
     return searchUrl;
 }
 
@@ -68,7 +94,7 @@ function addListSearchButton(showAllResults) {
     $("#results").append(r);
 }
 
-function showAllResultClickListener() {
+function showAllResultClickListener(stringResult) { 
     // split item out as a separate string 
     var item1 = stringResult.indexOf('item');
     var item2 = stringResult.indexOf(']');
@@ -77,7 +103,7 @@ function showAllResultClickListener() {
     // turn item into an array
     item = item.split('}');
     // show the first name 
-    for (i = 0; i < item.length - 1; i++) {
+    for (var i = 0; i < item.length - 1; i++) {
         var name = getValue(item[i], 'name', 8, 'ndbno', 20);
         $("#results").append("<br/>" + name);
 
@@ -88,7 +114,7 @@ function showAllResultClickListener() {
         ndbno = ndbno.slice(0, index - 1);
 
         $("#results").append("<br/>" + ndbno);
-        addItemDetailButton(ndbno);
+        addItemDetailButton(ndbno); 
     }
 }
 
@@ -103,7 +129,7 @@ function addItemDetailButton(ndbno) {
     $("#results").append(button);
 }
 
-function showNutrientDetailsClickListener(z) {
+function showNutrientDetailsClickListener(z) {   ///////////////////////////convert to fetch().  Replace z with something helpful.  Separate this from UI  calls.
     var searchUrl = buildFoodReportSearchUrl(z);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -126,90 +152,130 @@ function buildFoodReportSearchUrl(z) {
 }
 
 function formatFoodReport(result) {
-    var tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
-    var formattedReport = "<div class=\"foodReport\"><h1>Nutrition Facts</h1><div class=\"hr\"></div>";
+    var tab = "&nbsp;&nbsp;&nbsp;&nbsp;"; 
+            var formattedReport = "<div class=\"foodReport\">";
+                 formattedReport += "<div id=\"foodReportHeaderSection\" >";
+                             formattedReport += formatFoodReportHeader(result);
+                formattedReport += "</div>"; 
+                formattedReport += "<div class=\"foodReportMiddleSection\">";
+                             formattedReport += formatFoodReportMiddleSection(result , tab);
+                formattedReport += "</div>"; 
+                formattedReport += "<div id=\"foodReportBottomSection\">";
+                             formattedReport += formatFoodReportBottomSection(result );
+                formattedReport += "</div>";
+            formattedReport += "</div>";
+            formattedReport += "</div>";
+    return formattedReport + "<br/><br/>" + result;
+}
+
+
+
+function formatFoodReportHeader(result) {
+    var headerSection = "<h1>Nutrition Facts</h1>";
+    headerSection +="<div class=\"hr\"></div>";
     var name = getValue(result, 'name', 7, 'ds', 3);
-    formattedReport += "<br/><strong>" + name + "</strong>";
+    headerSection += "<br/><strong>" + name + "</strong>";
     var qty = getValue(result, 'qty', 6, 'value', 2);
     qty = qty === 0 ? "" : qty;
     var servingSize = getValue(result, 'label', 8, "eqv", 3);
-    formattedReport += "<br/><strong>Serving Size: " + qty + '  ' + servingSize + "</strong>";
-    formattedReport += "<div class= hrWide></div>";
-    var calories = getNutritionalValueAndUnit(result, 208);
-    calories = calories.substring(0, calories.length - 39);
-    formattedReport += "<div class=\"hrWide\"></div > " +     //   += "<div>" +
-        "<div id=\"AmountPerServing\">Amount per serving</div>" +
-        "<div id=\"Calories\">" +
-        "<div id=\"caloriesNumber\">" +
-        calories +
-        "</div>" +
-        "Calories" +
-        "</div >";
-    formattedReport += "<div class=\"hrThin\"></div>";
-    formattedReport += "<p id=\"percentDailyValue\">% Daily Value*</p>";
-    formattedReport += "<hr>";
-    var totalFat = getNutritionalValueAndUnit(result, 204);
-    formattedReport += "<strong>Total Fat</strong>  " + totalFat;
-    formattedReport += "<hr>";
-    var satFat = getNutritionalValueAndUnit(result, 606);
-    formattedReport += "<br/>" + tab + "Saturated Fat " + satFat;
-    formattedReport += "<hr>";
-    var transFat = getNutritionalValueAndUnit(result, 605);
-    formattedReport += "<br/>" + tab + "Trans Fat " + transFat;
-    formattedReport += "<hr>";
-    var cholesterol = getNutritionalValueAndUnit(result, 601);
-    formattedReport += "</br><strong>Cholesterol</strong> " + cholesterol;
-    formattedReport += "<hr>";
-    var sodium = getNutritionalValueAndUnit(result, 307);
-    formattedReport += "</br><strong>Sodium</strong> " + sodium;
-    formattedReport += "<hr>";
-    var totalCarbohydrate = getNutritionalValueAndUnit(result, 205);
-    formattedReport += "</br><strong>Total Carbohydrate</strong> " + totalCarbohydrate;
-    formattedReport += "<hr>";
-    var dietaryFiber = getNutritionalValueAndUnit(result, 291);
-    formattedReport += "</br>" + tab + "Dietary Fiber " + dietaryFiber;
-    formattedReport += "<hr>";
-    var totalSugars = getNutritionalValueAndUnit(result, 269);
-    formattedReport += "</br>" + tab + "Total Sugars " + totalSugars;
-    formattedReport += "<hr>" + tab + tab + "The USDA database does not yet contain information on added sugars.<hr>";
-    var protein = getNutritionalValueAndUnit(result, 203);
-    formattedReport += "</br><strong>Protein</strong> " + protein;
-    formattedReport += "<div class= hrWide></div>";
+    headerSection += "<br/><strong>Serving Size: " + qty + '  ' + servingSize + "</strong>";
+    headerSection += "<div class= hrWide></div>";
+    return headerSection;
+}
+
+function formatFoodReportMiddleSection(result,  tab) {  
+    var middleSection = "<div class=\"hrWide\"></div > ";
+    middleSection +=  buildCaloriesBlock(middleSection, result);
+    middleSection += "<div class=\"hrThin\"></div>";
+    middleSection += "<p id=\"percentDailyValue\">% Daily Value*</p>";
+    middleSection += "<hr>";
+    middleSection += getNutritionalValueAndUnit(result, 204); 
+    middleSection += "<hr>";
+    middleSection += getNutritionalValueAndUnit(result, 606); 
+    middleSection += "<hr>";
+    middleSection += getNutritionalValueAndUnit(result, 605); 
+    middleSection += "<hr>";
+    middleSection += getNutritionalValueAndUnit(result, 601); 
+    middleSection += "<hr>";
+    middleSection += getNutritionalValueAndUnit(result, 307); 
+    middleSection += "<hr>";
+    middleSection += getNutritionalValueAndUnit(result, 205); 
+    middleSection += "<hr>";
+    middleSection += getNutritionalValueAndUnit(result, 291); 
+    middleSection += "<hr>";
+    middleSection += getNutritionalValueAndUnit(result, 269); 
+    middleSection += "<hr>";
+    middleSection += tab + tab + "The USDA database does not yet contain information on added sugars.";
+    middleSection += "<hr>";
+    middleSection += getNutritionalValueAndUnit(result, 203); 
+    middleSection += "<div class= hrWide></div>"; 
+    return middleSection;
+}
+
+function buildCaloriesBlock(middleSection, result) {
+    var calories = getNutritionalValue(result, 208);  
+    middleSection += "<div id=\"AmountPerServing\">Amount per serving</div>" +
+        "<div id=\"Calories\">" + "Calories" +
+             "<div id=\"caloriesNumber\">" +
+              calories +
+              "</div>" + 
+        "</div>"; 
+    return middleSection;
+}
+
+function formatFoodReportBottomSection(result) {
     var vitaminD = getNutritionalValueAndUnit(result, 324);
     var calcium = getNutritionalValueAndUnit(result, 301);
-    formattedReport += "</br> Vitamin D  " + vitaminD + "   &#9679;   " + "Calcium " + calcium;
-    formattedReport += "<hr>";
+     
+    var bottomSection = buildBottomSectionRow(vitaminD, calcium);
+    bottomSection += "<hr>";
     var iron = getNutritionalValueAndUnit(result, 303);
     var potassium = getNutritionalValueAndUnit(result, 306);
-    formattedReport += "</br> Iron  " + iron + "   &#9679;   " + "Potassium " + potassium;
-    formattedReport += "<hr>";
-    formattedReport += "*The % Daily Value tells you how much a nutrient in a serving of food contributes to a daily diet.  2,000 calories a day is used for general nutrition advice.<hr> ";
+    bottomSection += buildBottomSectionRow(iron, potassium); 
+    bottomSection += "<hr>";
+    bottomSection += "*The % Daily Value tells you how much a nutrient in a serving of food contributes to a daily diet.  2,000 calories a day is used for general nutrition advice.<hr> ";
     var ingredients = getValue(result, 'ing', 14, 'upd', 3);
-
-    formattedReport += "<br/><strong>INGREDIENTS:</strong>" + ingredients;
+    bottomSection += "<br/><strong>INGREDIENTS:</strong>" + ingredients;
     var updatedDate = getValue(result, "upd", 6, 'nutrients', 4);
-    formattedReport += "   updated: " + updatedDate;
+    bottomSection += "   updated: " + updatedDate;
     var manu = getValue(result, 'manu', 7, 'ru', 3);
-    formattedReport += "<br/><strong>DISTRIBUTED BY:<br/>" + manu + "</strong>";
+    bottomSection += "<br/><strong>DISTRIBUTED BY:<br/>" + manu + "</strong>";
+    return bottomSection;
+}
 
-    formattedReport += "</div></div>";
-    return formattedReport + "<br/><br/>" + result;
+function buildBottomSectionRow(vitaminD, calcium) {
+    var row = "<div>";
+        row += " <div class=\"third floatLeft\"> " + vitaminD + "</div> ";
+        row += " <div class=\"third center floatLeft  \">    &#9679;   " + "</div>";
+        row+= "<div class=\"third rightjustify\">" + calcium + "</div>";
+    row+="</div>";
+    return row;
 }
 
 function getValue(item, itemKey, foreCount, nextItem, backCount) {
     var index = item.indexOf(itemKey);
-    var name = item.slice(index + foreCount);
-    index = name.indexOf(nextItem);
-    name = name.slice(0, index - backCount);
-    return name;
+    var value = item.slice(index + foreCount);
+    index = value.indexOf(nextItem);
+    value = value.slice(0, index - backCount); 
+    return value;
+    
+}
+  
+function getNutritionalValue(result, id) {
+    var n = getValue(result, 'nutrient_id":"' + id, 0, '},', 0); 
+    var nMeasures = getValue(n, "measures", 12, '" ]', 0);
+    var nutritionalValue = getValue(nMeasures, "value", 8, '}', 1);
+    if (!nutritionalValue) {
+        nutritionalValue = 0;
+    } 
+    return nutritionalValue;
 }
 
-var dv;
 
 function getNutritionalValueAndUnit(result, id) {
 
-    var n = getValue(result, 'nutrient_id":"' + id, 0, '},', 0);
-
+    var n = getValue(result, 'nutrient_id":"' + id, 0, '},', 0); 
+    var nutrientName = getValue(n, ',', 9, 'derivation', 3);  
     var notFound = {
         "nutrient": "none",
         "nutrient_id": -1,
@@ -218,11 +284,9 @@ function getNutritionalValueAndUnit(result, id) {
     };
     var selected = minDailyReq.filter(val => { return val.nutrient_id === id; }) || notFound;
 
-    var dv = 0;
-    var dvUnit = "";
+    var dv = 0; 
     if (selected[0]) {
-        dv = selected[0].dv || 0;
-        dvUnit = selected[0].unit || "";
+        dv = selected[0].dv || 0; 
     }
 
 
@@ -234,11 +298,12 @@ function getNutritionalValueAndUnit(result, id) {
     var unit = getValue(nMeasures, "eunit", 8, '",', 0);
     var percentage = "";
     if (dv !== 0) {
-        percentage = 100 * measures / dv + "%";
+        percentage = (100 * measures / dv).toFixed() + "%";
     }
+ 
 
-    var valueAndUnit = measures + unit + "<span class=\"rightjustify\">" + percentage + "</span>";
-    return valueAndUnit;
+    var piece = "<strong>" + nutrientName + "</strong>  " + measures + unit + "<span class=\"rightjustify\">" + percentage + "</span>";  
+    return piece;
 }
 
 var displayQuery = function (goesIn) {
