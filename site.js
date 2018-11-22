@@ -1,64 +1,11 @@
-﻿"use strict";
+﻿ 
+"use strict";
 
 var getKey = function () {
     const key = "sFtfcrVdSOKA4ip3Z1MlylQmdj5Uw3JoIIWlbeQm";
     return key;
 };
-
-(function () {
-    $('#displayAboutPage').hide(); 
-    
-})();
-
-// note that the USDA json files are not necessarily correct json, and errors have been seen by me too many times. I need to write my own methods.
-$('#foodsSearchSubmitBtn').click(ingredientSearchSubmitBtnClickListener);
-
-function ingredientSearchSubmitBtnClickListener() { 
-    let search  = $('#foodsSearchTextBox').val(); 
-    ingredientSearchSubmitBtn(search);
-}
-
-function ingredientSearchSubmitBtn(search) { 
-    var searchUrl = buildFoodListSearchUrl(search);
-    //var xhttp = new XMLHttpRequest();
-    //xhttp.onreadystatechange = function () {
-    //    if (this.readyState === 4 && (this.status === 0 || this.status === 200)) {
-    //        showAllResultClickListener(this.responseText);
-    //    }
-    //};
-    //xhttp.open('GET', searchUrl);
-    //xhttp.send();
-    fetch(searchUrl)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (myJson) {
-            showAllResultClickListener(JSON.stringify(myJson));   // following method not reading data, need to add error handling and other header info.  Fetch however is working just fine. 
-        });
-}
-
-
-var displayList = function (stringResult) {
-    var toUI = checkForErrorReturned(stringResult);
-    if (toUI === "") {
-        toUI = "Search Term : " + displayQuery(stringResult);
-        var total = displayTotal(stringResult);
-        toUI = toUI + "  Total Found: " + total + "  ";
-        $('#results').text(toUI);
-        var text = populateResultsButtonText(total);
-        addListSearchButton(resultsButtonText);
-    }
-};
-
-var checkForErrorReturned = function (incoming) {
-    var message = "";
-    if (incoming.indexOf("error") !== -1) {
-        var errorMessage = "Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.";
-        message = errorMessage;
-    }
-    return message;
-};
-
+ 
 var populateResultsButtonText = function (total) {
     var text = "Show First Fifty Results";
     if (total === 50) {
@@ -74,6 +21,14 @@ var populateResultsButtonText = function (total) {
 };
 
 
+var displayList = function (json) {
+    console.log("displayList 1");
+    console.log(json);
+    console.log("displayList 2");
+
+};
+
+
 
 function buildFoodListSearchUrl(searchTerm) {
     var defaultCount = 50;
@@ -83,65 +38,21 @@ function buildFoodListSearchUrl(searchTerm) {
     var searchUrl = string1.concat(searchTerm, string2, key); 
     return searchUrl;
 }
+ 
 
-function addListSearchButton(showAllResults) {
-    var r = $('<input/>').attr({
-        type: "button",
-        id: "field",
-        value: showAllResults,
-        onclick: "showAllResultClickListener()"
-    });
-    $("#results").append(r);
-}
-
-function showAllResultClickListener(stringResult) { 
-    // split item out as a separate string 
-    var item1 = stringResult.indexOf('item');
-    var item2 = stringResult.indexOf(']');
-    var item = stringResult.slice(item1 + 8, item2);
-
-    // turn item into an array
-    item = item.split('}');
-    // show the first name 
-    for (var i = 0; i < item.length - 1; i++) {
-        var name = getValue(item[i], 'name', 8, 'ndbno', 20);
-        $("#results").append("<br/>" + name);
-
-        var index = item[i].indexOf('ndbno');
-        var ndbno = item[i].slice(index + 9);
-
-        index = ndbno.indexOf(',');
-        ndbno = ndbno.slice(0, index - 1);
-
-        $("#results").append("<br/>" + ndbno);
-        addItemDetailButton(ndbno); 
+function buildAnArrayOfNamesAndNdbnos(json) { 
+    var array = []; 
+    if (!json.item  ) {
+        return getErrorMessage();
     }
+    for (var i = 0; i < json.item.length; i++) {
+ 
+        var element = {"name": json.item[i].name, "ndbno":json.item[i].ndbno }; 
+        array.push(element);
+    };  
+    return array; 
 }
 
-function addItemDetailButton(ndbno) {
-    var button = $('<input/>').attr({
-        type: "button",
-        id: ndbno,
-        value: "Show Nutrient Details ",
-        onclick:
-            "showNutrientDetailsClickListener(id)"
-    });
-    $("#results").append(button);
-}
-
-function showNutrientDetailsClickListener(z) {   ///////////////////////////convert to fetch().  Replace z with something helpful.  Separate this from UI  calls.
-    var searchUrl = buildFoodReportSearchUrl(z);
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            var result = formatFoodReport(this.responseText);
-            $("#results").empty();
-            $("#results").append(result);
-        }
-    };
-    xhttp.open('GET', searchUrl);
-    xhttp.send();
-}
 
 function buildFoodReportSearchUrl(z) {
     var string1 = " https://api.nal.usda.gov/ndb/V2/reports?ndbno=";
@@ -305,14 +216,7 @@ function getNutritionalValueAndUnit(result, id) {
     var piece = "<strong>" + nutrientName + "</strong>  " + measures + unit + "<span class=\"rightjustify\">" + percentage + "</span>";  
     return piece;
 }
-
-var displayQuery = function (goesIn) {
-    var index = goesIn.indexOf('"q": "');
-    var result = goesIn.slice(index + 6, 100);
-    index = result.indexOf('",');
-    result = result.slice(0, index);
-    return result;
-};
+ 
 
 
 var displayTotal = function (usdaFoodList) {
