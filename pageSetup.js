@@ -1,19 +1,33 @@
 ﻿"use strict";
 
-//$(document).ready(function () { 
-//    displayHomePage();
-//});
+(function () {   
+    document.getElementById('home').addEventListener("click", toggleDisplay); 
+        document.getElementById('displayHomePage').style.display = "block";
+        document.getElementById('displayAboutPage').style.display = "none"; 
+})();
 
-$('#home').click(displayHomePage);
 
-$('#about').click(displayAboutPage);
-
-function displayHomePage() {
-    $('#displayHomePage').show();
-    $('#displayAboutPage').hide(); 
+function toggleDisplay() {
+    showHide('displayHomePage');
+    showHide('displayAboutPage');
 }
 
-function displayAboutPage() {
-    $('#displayHomePage').hide();
-    $('#displayAboutPage').show();
+function showHide(division) {
+    let x = document.getElementById(division);
+    console.log(x);
+
+    if (x.style.display === "block") {
+        x.style.display = "none";
+    }
+    else {
+        x.style.display = "block";
+    }
+}
+
+function show(division) {
+    document.getElementById(division).style.display = "block";
+}
+
+function hide(division) {
+    document.getElementById(division).style.display = "none";
 }

@@ -4,33 +4,110 @@ QUnit.test("http-0 hello", function (assert) {
     assert.ok(1 === 1, "Passed! Makes sure file is working in qunit");
 });
 
-
-QUnit.test("http-1 Query is correctly returned from async call", function (assert) {
-    let done = assert.async();
-    let correct = true; 
-    setTimeout(async function ()
-    {
-        let returned = await innerTest(); 
-        assert.equal(returned, correct, "Call returned query successfully");  
-        done(); 
-    });
-
-async function innerTest() {
+QUnit.test("http-1 Query is correctly returned from async call on search for Apache", function (assert) {
+    let done = assert.async(3);
+    let correct = true;
     const searchTerm = "Apache";
     const searchUrl = buildFoodListSearchUrl(searchTerm); // tested in site-4
-    var response = await fetchUsers(searchUrl);
+
     let passOrFail = false;
-    if (response.list.q === "Apache") {
-        passOrFail = true;
+
+    setTimeout(async function () {
+        let returned = await innerTest1();
+        assert.equal(returned, true, "Call returned query successfully for name from search on Apache");
+        done();
+    });
+
+    setTimeout(async function () {
+        let returned = await innerTest1();
+        assert.equal(returned, true, "Call returned query successfully for name from search on Apache");
+        done();
+    });
+
+
+    setTimeout(async function () {
+        let returned = await innerTest3();
+        assert.equal(returned, true, "Call returned correct error message on bad search URL");
+        done();
+    });
+
+    async function innerTest1() {
+        const response = await httpCall(searchUrl);
+        if (response.list.q === "Apache") {
+            passOrFail = true;
+        }
+        return passOrFail;
+    };
+
+
+
+
+    async function innerTest2() {
+        const correct = '{"list": { "q": "Apache", "sr": "1", "ds": "any", "start": 0, "end": 4, "total": 4, "group": "", "sort": "r",' +
+            ' "item": [{"offset": 0, "group": "American Indian/Alaska Native Foods", "name": "Acorn stew (Apache)", "ndbno": "35182", "ds": "SR", "manu":"none"},' +
+            '{ "offset": 1, "group": "American Indian/Alaska Native Foods", "name": "Tennis Bread, plain (Apache)", "ndbno": "35187", "ds": "SR", "manu": "none" },' +
+            '{ "offset": 2, "group": "American Indian/Alaska Native Foods", "name": "Frybread, made with lard (Apache)", "ndbno": "35185", "ds": "SR", "manu": "none" },' +
+            '{ "offset": 3, "group": "American Indian/Alaska Native Foods", "name": "Corned beef and potatoes in tortilla (Apache)", "ndbno": "35186", "ds": "SR", "manu": "none"}' +
+            ']' +
+            '}' +
+            '}';
+        const response = await httpCall(searchUrl);
+        const responseString = JSON.stringify(response).replace(/\s+/g, "");
+        const correctCompressed = correct.replace(/\s+/g, "");
+        var result = responseString.localeCompare(correctCompressed);
+        if (result === 0) {
+            passOrFail = true;
+        }
+        return passOrFail;
+    };
+
+    async function innerTest3() {
+        const response = await httpCall(-1);
+        passOrFail = new String(response.statusText).valueOf === new String("Not Found").valueOf;
+        return passOrFail;
     }
-   return passOrFail;  
-}; 
 });
 
- 
 
 
-var getArr = function () {
+QUnit.test("http-2  Status and Error Message are correctly returned from async call on search for qqq", function (assert) {
+    let done = assert.async(2);
+    let correct = true;
+    const searchTerm = "qqq";
+    const searchUrl = buildFoodListSearchUrl(searchTerm); // tested in site-4
+
+    let passOrFail = false;
+
+    setTimeout(async function () {
+        let returned = await innerTest1();
+        assert.equal(returned, correct, "Call returned query successfully for name from search on Apache");
+        done();
+    });
+
+
+    setTimeout(async function () {
+        let returned = await innerTest1A();
+        assert.equal(returned, true, "Call returned correct status on bad search URL");
+        done();
+    });
+
+    async function innerTest1() {
+        const response = await httpCall(searchUrl);
+    
+        passOrFail =  (response.errors.error[0].status === 400); 
+        return passOrFail;
+    };
+  
+    async function innerTest1A(){
+        const response = await httpCall(searchUrl);
+        passOrFail = (new String(response.errors.error[0].message).valueOf === new String("Your search resulted in zero results.Change your parameters and try again").valueOf); 
+        return passOrFail;
+    };
+
+});
+
+
+const getArr = function () {
     const arr = {
         "item": [
             { "offset": 1, "group": "Branded Food Products Database", "name": "Uncle Jim's Cigar Jam", "ndbno": "45136115", "ds": "LI" },
@@ -46,7 +123,7 @@ var getArr = function () {
 
 
 
-QUnit.test("http-2 buildAnArrayOfNamesAndNdbnos() returns the right result", function (assert) {
+QUnit.test("http-3 buildAnArrayOfNamesAndNdbnos() returns the right result", function (assert) {
     assert.expect(11);
     var arr = getArr();
     var returned = buildAnArrayOfNamesAndNdbnos(arr);
@@ -66,71 +143,76 @@ QUnit.test("http-2 buildAnArrayOfNamesAndNdbnos() returns the right result", fun
     var correct = "Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.";
     arr = "qqq111";
     returned = buildAnArrayOfNamesAndNdbnos(arr);
-    console.log(returned);
     assert.equal(returned, correct);
 });
 
-//QUnit.test("http-2 httpCall", function (assert) {
-//    let done = assert.async();
-//    const searchTerm = "Apache";
-//    const searchUrl = buildFoodListSearchUrl(searchTerm); // tested in site-4
+QUnit.test("http-4 Query is correctly returned from async call on search for food report for  01009", function (assert) {
+    let done = assert.async(3); 
+    const searchTerm = "01009";
+    const searchUrl = buildFoodReportSearchUrl(searchTerm); // tested site-5
+    let passOrFail = false;
 
-
-//    const correct = '{"list": { "q": "Apache", "sr": "1", "ds": "any", "start": 0, "end": 4, total": 4, "group": "", "sort": "r",' +
-//        ' "item": [{"offset": 0, "group": "American Indian/Alaska Native Foods", "name": "Acorn stew (Apache)", "ndbno": "35182", "ds": "SR", "manu":"none"},' +
-//        '{ "offset": 1, "group": "American Indian/Alaska Native Foods", "name": "Tennis Bread, plain (Apache)", "ndbno": "35187", "ds": "SR", "manu": "none" },' +
-//        '{ "offset": 2, "group": "American Indian/Alaska Native Foods", "name": "Frybread, made with lard (Apache)", "ndbno": "35185", "ds": "SR", "manu": "none" },' +
-//        '{ "offset": 3, "group": "American Indian/Alaska Native Foods", "name": "Corned beef and potatoes in tortilla (Apache)", "ndbno": "35186", "ds": "SR", "manu": "none"}' +
-//        ']' +
-//        '}' +
-//        '}';
-
-
-//   let returned = httpCall(searchUrl);
-
-//    console.log("foo");
-
-//    setTimeout(function () {
-
-//        assert.equal(returned, correct, "Call was successful on searchterm of ff");
-
-//        done();
-//    }, 500);
-
-//});
-
-QUnit.test("multiple call test()",  function (assert) {
-    var done = assert.async(1);
-
-    const searchTerm = "Apache";
-    const searchUrl = buildFoodListSearchUrl(searchTerm); // tested in site-4
-
-
-    //setTimeout(function () {
-    //    assert.ok(true, "first callback.");
-    //    done();
-    //}, 500);
-
-    //setTimeout(function () {
-    //    assert.ok(true, "second callback.");
-    //    done();
-    //}, 500);
-
-    //setTimeout(function () {
-    //    assert.ok(true, "third callback.");
-    //    done();
-    //}, 500);
-    let returned = "foobar";
-    let correct = "foo";
-
-    setTimeout(function () {
-        console.log("test");
-        assert.timeout(5000); // Timeout of 5 seconds
-        returned = fetchUsers(searchUrl);
-        return returned.then(function () {
-            assert.deepEqual(returned, correct, "my 5:32 revised callback.");
-        });
+    setTimeout(async function () {
+        let returned = await innerTest10();
+        assert.equal(returned, true, "Call returned query successfully for name from search on 01009");
+        done();
     });
+
+    setTimeout(async function () {
+        let returned = await innerTest20();
+        assert.equal(returned, true, "Call returned query successfully for entire food from search on 01009");
+        done();
+    });
+
+    setTimeout(async function () {
+        let returned = await innerTest30();
+        assert.equal(returned, true, "Call returned correct error message on bad search URL");
+        done();
+    });
+
+    async function innerTest10() {
+        const response = await httpCall(searchUrl);
+        passOrFail = (new String(response.foods[0].food.desc.name).valueOf === new String("Cheese, cheddar(Includes foods for USDA's Food Distribution Program)").valueOf);
+        return passOrFail;
+    };
+
+    async function innerTest20() {
+        const response = await httpCall(searchUrl);
+        const returned = response.foods[0].food.nutrients[0].measures[0].value;
+        if (48.51 - returned < 0.01) {
+            passOrFail = true;
+        }
+        return passOrFail;
+    };
+
+    async function innerTest30() {
+        const response = await httpCall(-1);
+        passOrFail = (new String(response.statusText).valueOf === new String("Not Found").valueOf); 
+        return passOrFail;
+    }
 });
-  
- 
+
+
+
+QUnit.test("http-5  Status and Error Message are correctly returned from async call on search for qqq", function (assert) {
+    let done = assert.async(1);
+    let correct = true;
+    const searchTerm = "qqq";
+    const searchUrl = buildFoodListSearchUrl(searchTerm);  
+
+    let passOrFail = false;
+
+    setTimeout(async function () {
+        let returned = await innerTest1();
+        assert.equal(returned, correct, "Call returned query successfully for name from search on Apache");
+        done();
+    });
+
+    async function innerTest1() {
+        const response = await httpCall(searchUrl);
+        if (response.errors.error[0].status === 400 && response.errors.error[0].message === "Your search resulted in zero results.Change your parameters and try again") {
+            passOrFail = true;
+        }
+        return passOrFail;
+    };
+});
