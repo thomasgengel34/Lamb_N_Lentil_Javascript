@@ -21,12 +21,12 @@ var populateResultsButtonText = function (total) {
 };
 
 
-var displayList = function (json) {
-    console.log("displayList 1");
-    console.log(json);
-    console.log("displayList 2");
+//var displayList = function (json) {
+//    console.log("displayList 1");
+//    console.log(json);
+//    console.log("displayList 2");
 
-};
+//};
 
 
 
@@ -99,7 +99,7 @@ function formatFoodReportMiddleSection(result,  tab) {
     middleSection +=  buildCaloriesBlock(middleSection, result);
     middleSection += "<div class=\"hrThin\"></div>";
     middleSection += "<p id=\"percentDailyValue\">% Daily Value*</p>";
-    middleSection += "<hr>";
+    middleSection += "<hr>"; 
     middleSection += getNutritionalValueAndUnit(result, 204); 
     middleSection += "<hr>";
     middleSection += getNutritionalValueAndUnit(result, 606); 
@@ -164,15 +164,20 @@ function buildBottomSectionRow(vitaminD, calcium) {
 }
 
 function getValue(item, itemKey, foreCount, nextItem, backCount) {
-    var index = item.indexOf(itemKey);
-    var value = item.slice(index + foreCount);
-    index = value.indexOf(nextItem);
-    value = value.slice(0, index - backCount); 
-    return value;
+  
+    
+    //var index = item.indexOf(itemKey);
+    //var value = item.slice(index + foreCount);
+    //index = value.indexOf(nextItem);
+    //value = value.slice(0, index - backCount); 
+    //return value;
     
 }
   
 function getNutritionalValue(result, id) {
+    console.log(550);
+    console.log(result);
+    console.log(600);
     var n = getValue(result, 'nutrient_id":"' + id, 0, '},', 0); 
     var nMeasures = getValue(n, "measures", 12, '" ]', 0);
     var nutritionalValue = getValue(nMeasures, "value", 8, '}', 1);

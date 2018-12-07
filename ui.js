@@ -1,9 +1,11 @@
 ﻿"use strict";
+//const foobar = function () { ingredientSearchSubmit("ff"); };
 
 (function () {
-  
-        document.getElementById('foodsSearchSubmitBtn').addEventListener("click", ingredientSearchSubmitBtnClickListener);  
+    document.getElementById('foodsSearchSubmitBtn').addEventListener("click", ingredientSearchSubmitBtnClickListener);  
 })();
+
+
 
 var displayList = function (json) {
     var toUI = checkForErrorReturned(json);
@@ -18,9 +20,20 @@ var displayList = function (json) {
     }
 };
 
-function ingredientSearchSubmitBtnClickListener() {
-    let search = document.getElementById('foodsSearchTextBox').value;
-    ingredientSearchSubmit(search);
+async function ingredientSearchSubmitBtnClickListener(search) {   
+
+    let query = document.getElementById("foodsSearchTextBox").value; 
+    if (query===null ||query===""||query===undefined) {
+        query = search;
+    }
+    console.log(40);
+    console.log(query);
+    console.log(41);
+    const response = await ingredientSearchSubmit(query);     
+    console.log(42);
+    console.log(response);
+    console.log(43);
+    document.getElementById('results').innerHTML = formatFoodList(response); 
 }
 
 function addListSearchButton(text) {
@@ -33,15 +46,7 @@ function addListSearchButton(text) {
     document.getElementById("results").append(r);
 }
 
-function showAllResultClickListener() {
-    console.log("here");
-}
-
-
-function addItemDetailButton(namesAndNdbnos) {
-    console.log(namesAndNdbnos);
-};
-
+// this appears more advanced than addListSearchButton(text). Not sure.  
 function myFunction() {
     var button = document.getElementByClass('<input/>').attr({
         type: "button",
@@ -53,3 +58,14 @@ function myFunction() {
 
     document.getElementById("results").append("<br/>" + name + "<br/>" + ndbno + button);
 } 
+
+function showAllResultClickListener() {
+    console.log("here");
+}
+
+
+function addItemDetailButton(namesAndNdbnos) {
+    console.log(namesAndNdbnos);
+};
+
+
