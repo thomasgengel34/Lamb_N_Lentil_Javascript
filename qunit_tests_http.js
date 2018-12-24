@@ -5,8 +5,7 @@ QUnit.test("http-0 hello", function (assert) {
 });
 
 QUnit.test("http-1 Query is correctly returned from async call on search for Apache", function (assert) {
-    let done = assert.async(3);
-    let correct = true;
+    let done = assert.async(3); 
     const searchTerm = "Apache";
     const searchUrl = buildFoodListSearchUrl(searchTerm); // tested in site-4
 
@@ -19,7 +18,7 @@ QUnit.test("http-1 Query is correctly returned from async call on search for Apa
     });
 
     setTimeout(async function () {
-        let returned = await innerTest1();
+        let returned = await innerTest2();
         assert.equal(returned, true, "Call returned query successfully for name from search on Apache");
         done();
     });
@@ -37,10 +36,7 @@ QUnit.test("http-1 Query is correctly returned from async call on search for Apa
             passOrFail = true;
         }
         return passOrFail;
-    };
-
-
-
+    }; 
 
     async function innerTest2() {
         const correct = getApacheList();
@@ -56,7 +52,8 @@ QUnit.test("http-1 Query is correctly returned from async call on search for Apa
 
     async function innerTest3() {
         const response = await httpCall(-1);
-        passOrFail = new String(response.statusText).valueOf === new String("Not Found").valueOf;
+       // passOrFail = new String(response.statusText).valueOf === new String("Not Found").valueOf;
+         passOrFail =   response.statusText.valueOf === "Not Found".valueOf;
         return passOrFail;
     }
 });
@@ -144,7 +141,7 @@ const getApacheList = function () {
         assert.equal(correctArray[2].ndbno, returned[2].ndbno);
         assert.equal(correctArray[3].ndbno, returned[3].ndbno);
         assert.equal(correctArray[4].ndbno, returned[4].ndbno);
-        var correct = "Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.";
+        var correct = "<div id=\"errorMessage\">Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.</div>";
         arr = "qqq111";
         returned = buildAnArrayOfNamesAndNdbnos(arr);
         assert.equal(returned, correct);

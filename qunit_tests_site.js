@@ -29,19 +29,19 @@ QUnit.test("site-6 checkForErrorReturned", function (assert) {
     assert.expect(2);
     let list = "xxxxerrorxxxxx";
     let returned = checkForErrorReturned(list);
-    let correct = "Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.";
+    let correct = "<div id=\"errorMessage\">Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.</div>";
     assert.equal(returned, correct);
-    list = "yabba dabba doo";
+    list = "just a string without the big e word in it";
     correct = "";
-    returned = checkForErrorReturned(list); 
+    returned = checkForErrorReturned(list);
     assert.equal(returned, correct);
 });
 
 QUnit.test("site-7 populateResultsButtonText", function (assert) {
     assert.expect(7);
-    var total = 0;
-    var correct = "Show Result";
-    var returned = populateResultsButtonText(total);
+    let total = 0;
+    let correct = "Show Result";
+    let returned = populateResultsButtonText(total);
     assert.equal(returned, correct);
     total = 0.999;
     correct = "Show Result";
@@ -71,14 +71,14 @@ QUnit.test("site-7 populateResultsButtonText", function (assert) {
 
 QUnit.test("site-8 handleErrors() outcomes are correct",
     function (assert) {
-        var correct = "Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.";
-        var returned = getErrorMessage();
+        const correct = "<div id=\"errorMessage\">Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.</div>";
+        const returned = getErrorMessage();
         assert.equal(returned, correct);
     });
 
 QUnit.test("site-9 getErrorMessage() is correct", function (assert) {
-    var correct = "Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.";
-    var returned = getErrorMessage();
+    const correct = "<div id=\"errorMessage\">Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.</div>";
+    const returned = getErrorMessage();
     assert.equal(returned, correct);
 });
 

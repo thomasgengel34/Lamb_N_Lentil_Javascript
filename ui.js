@@ -1,5 +1,5 @@
 ﻿"use strict";
-//const foobar = function () { ingredientSearchSubmit("ff"); };
+ 
 
 (function () {
     document.getElementById('foodsSearchSubmitBtn').addEventListener("click", ingredientSearchSubmitBtnClickListener);  
@@ -20,20 +20,14 @@ var displayList = function (json) {
     }
 };
 
-async function ingredientSearchSubmitBtnClickListener(search) {   
-
+async function ingredientSearchSubmitBtnClickListener(search) {    
     let query = document.getElementById("foodsSearchTextBox").value; 
     if (query===null ||query===""||query===undefined) {
         query = search;
-    }
-    console.log(40);
-    console.log(query);
-    console.log(41);
-    const response = await ingredientSearchSubmit(query);     
-    console.log(42);
-    console.log(response);
-    console.log(43);
-    document.getElementById('results').innerHTML = formatFoodList(response); 
+    } 
+    const response = await ingredientSearchSubmit(query);   
+    const text = await formatFoodList(response);  
+    document.getElementById('results').innerHTML = text;
 }
 
 function addListSearchButton(text) {
@@ -46,7 +40,7 @@ function addListSearchButton(text) {
     document.getElementById("results").append(r);
 }
 
-// this appears more advanced than addListSearchButton(text). Not sure.  
+// this appears more advanced than addListSearchButton(text). Not sure which one should be used.  .  
 function myFunction() {
     var button = document.getElementByClass('<input/>').attr({
         type: "button",

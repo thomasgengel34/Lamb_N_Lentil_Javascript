@@ -7,6 +7,23 @@
     <meta name="description" content="" />
     <link href="Content/Site.css" rel="stylesheet" />
     <title>Lamb N Lentil</title>
+    <style>
+        .draggee {
+            position: absolute;
+            z-index: 9;
+            background-color: #f1f1f1;
+            border: 1px solid #d3d3d3;
+            text-align: center;
+        }
+
+        .dragged {
+            padding: 10px;
+            cursor: move;
+            z-index: 10;
+            background-color: #2196F3;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -16,18 +33,19 @@
             </div>
         </div>
     </nav>
-    <div>
-        <h1>Lamb 'N' Lentil</h1>
-        <div id="displayHomePage">
-            <h3>Search For Ingredients</h3>
-            <div class="navbar-form navbar-left ">
-                <div class="form-group">
-                    <p>Searches in the USDA databases are limited to 43 characters. Sorry!</p>
-                    <input id="foodsSearchTextBox" type="text" placeholder="Search" autofocus>
-                    <button id="foodsSearchSubmitBtn" type="submit" class="btn btn-default ">Search</button>
-                </div>
+
+
+    <h1>Lamb 'N' Lentil</h1>
+    <div id="displayHomePage">
+        <h3>Search For Ingredients</h3>
+        <div class="navbar-form navbar-left ">
+            <div class="form-group">
+                <p>Searches in the USDA databases are limited to 43 characters. Sorry!</p>
+                <input id="foodsSearchTextBox" type="text" placeholder="Search" autofocus>
+                <button id="foodsSearchSubmitBtn" type="submit" class="btn btn-default ">Search</button>
             </div>
         </div>
+
         <div id="displayAboutPage">
             <h2>USDA Ingredient Database</h2>
             <p>Look up ingredients on :<a href="https://ndb.nal.usda.gov/ndb" target="_blank" \>the USDA nutritional site</a></p>
@@ -59,6 +77,16 @@
         </div>
 
         <div id="results"></div>
+        <!-- Draggable DIV -->
+        <!--<div id="mydiv" class="draggee">
+            <div>
+                 Include a header DIV with the same name as the draggable DIV, followed by "header"
+                <div id="mydivheader" class="dragged ">Click here to move</div>
+                <p>Move</p>
+                <p>this</p>
+                <p>DIV</p>
+            </div>
+        </div>-->
     </div>
     <footer>
         <p>
@@ -67,11 +95,18 @@
 
     </footer>
     <script src="Scripts/pageSetup.js"></script>
-    <script src="Scripts/site.js"></script>
     <script src="Scripts/foodList.js"></script>
+    <script src="Scripts/foodReport.js"></script>
     <script src="Scripts/ui.js"></script>
     <script src="Scripts/http.js"></script>
     <script src="Scripts/MinimumDailyRequirements.js"></script>
-    <img id='output'>
+    <!--<script src="Scripts/Dragging.js"></script>
+    <script>
+        const element = document.getElementById("mydiv");
+        dragElement(element);
+    </script>-->
+    <!--<img id='output'>-->
+
+
 </body>
 </html>
