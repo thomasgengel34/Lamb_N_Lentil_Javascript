@@ -37,37 +37,6 @@ QUnit.test("site-6 checkForErrorReturned", function (assert) {
     assert.equal(returned, correct);
 });
 
-QUnit.test("site-7 populateResultsButtonText", function (assert) {
-    assert.expect(7);
-    let total = 0;
-    let correct = "Show Result";
-    let returned = populateResultsButtonText(total);
-    assert.equal(returned, correct);
-    total = 0.999;
-    correct = "Show Result";
-    returned = populateResultsButtonText(total);
-    assert.equal(returned, correct);
-    total = 1;
-    correct = "Show Result";
-    returned = populateResultsButtonText(total);
-    assert.equal(returned, correct);
-    total = 2;
-    correct = "Show the " + total + " Results";
-    returned = populateResultsButtonText(total);
-    assert.equal(returned, correct);
-    total = 49;
-    correct = "Show the " + total + " Results";
-    returned = populateResultsButtonText(total);
-    assert.equal(returned, correct);
-    total = 50;
-    correct = "Show Fifty Results";
-    returned = populateResultsButtonText(total);
-    assert.equal(returned, correct);
-    total = 51;
-    correct = "Show First Fifty Results";
-    returned = populateResultsButtonText(total);
-    assert.equal(returned, correct);
-});
 
 QUnit.test("site-8 handleErrors() outcomes are correct",
     function (assert) {

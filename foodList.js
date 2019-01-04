@@ -6,22 +6,33 @@ let formatFoodList = async function (response) {
         return check;
     }
     else {
+        if (!response.list || !response.list.item) {
+            return "div  id=\"listBody\">There is an error in transmitting the data back. Please try your request again.</div>";
+        }
         let formattedFoodList = formatFoodListHeader(response);
         formattedFoodList += formatFoodListBody(response);
         const sortedList = await generateReportList();
         formattedFoodList += formatListBody(sortedList);
-        return  await formattedFoodList;
+        return await formattedFoodList;
     }
 };
 
 let formatFoodListHeader = function (response) {
-    const searchText = response.list.q;
-    const total = response.list.total;
+    let searchText = "";
+    let total = 0;
+    if (response.list) {
+        if (response.list.q) {
+            searchText = response.list.q;
+        }
+        if (response.list.total) {
+            total = response.list.total;
+        }
+    }
     let listHeader = "<div>";
     listHeader += "Your search for  <span style=\"font-weight: bold; color:green\">" + searchText + "</span> found " + total + " items";
     listHeader += "</div > ";
     listHeader += "<div>";
-    listHeader += "<h3>Filter Your Results</h3> <p>Capitalization and EXACT spelling are important!</p> <input id=\"foodListFilterTextBox\" type=\"text\" placeholder=\"Enter a word to filter by\" />  <p>To Get items that the filter phrase is not in, check here  <input id=\"Checkbox1\" type=\"checkbox\" /></p><input id=\"foodListFilterBtn\" type=\"submit\" value=\"Go!\" onclick=filterList() /><h3>Sort Your Results</h3>  </div> ";
+    listHeader += "<h3>Filter Your Results</h3> <p>Capitalization and EXACT spelling are important!</p> <input id=\"foodListFilterTextBox\" type=\"text\" placeholder=\"Enter a word to filter by\" />  <p>To Get items that the filter phrase is not in, check here  <input id=\"Checkbox1\" type=\"checkbox\" /></p><input id=\"foodListFilterBtn\" type=\"submit\" value=\"Filter and Sort\" onclick=filterList() /><h3>Sort Your Results</h3>  </div> ";
     listHeader += "<div><p>Select a sort option:</p ><input type=\"radio\" id=\"originalOrder\" name=\"sortChoices\" value=\"original\" checked>";
     listHeader += "<label for=\"originalOrder\">Original Order</label><input type=\"radio\" id=\"AtoZ\" name=\"sortChoices\" value=\"AtoZ\">";
     listHeader += "<label for=\"a2z\">A to Z</label><input type=\"radio\" id=\"ZtoA\" name=\"sortChoices\" value=\"ZtoA\"><label for=\"ZtoA\">Z to A</label></div></div>";
@@ -29,6 +40,9 @@ let formatFoodListHeader = function (response) {
 };
 
 let formatFoodListBody = function (response) {
+    if (!response.list || !response.list.item) {
+        return "div  id=\"listBody\">There is an error in transmitting the data back. Please try your request again.</div>";
+    }
     let listBody = "<div id=\"listBody\">";
     response.list.item.forEach(function (entry) {
         listBody += "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(" + entry.ndbno + ")>" + entry.name + "</a>";
@@ -43,87 +57,111 @@ let generateReportList = async function () {
     if (textBox) {
         filterText = textBox.value;
     }
+    let searchTerm = "";
     const searchBox = document.getElementById("foodsSearchTextBox");
-    const searchTerm = searchBox.value;
-    let IsChecked = false;
-    const checkBox = document.getElementById("Checkbox1");
-    if (checkBox) {
-        IsChecked = checkBox.checked;
+    if (searchBox) {
+        searchTerm = searchBox.value;
     }
+    //let IsChecked = false;
+    //const checkBox = document.getElementById("Checkbox1");
+    //if (checkBox) {
+    //    IsChecked = checkBox.checked;
+    //}
     const searchUrl = buildFoodListSearchUrl(searchTerm);
     const response = await httpCall(searchUrl);
-    const unfilteredList = response.list.item;
-    const checkbox = document.querySelector('input[name="sortChoices"]:checked');
-    let sortSelected;
-    if (checkbox) {
-        sortSelected = checkbox.value;
+    let unfilteredList = [];
+    if (response.list.item) {
+        unfilteredList = response.list.item;
     }
-    let sortedList = ""; 
-    if (unfilteredList.length > 2) {
-        console.log(63);
-        console.log(unfilteredList.length);
-        console.log(65);
-        
-        const filteredList = filterList(unfilteredList, filterText, IsChecked);
-        sortedList = sortList(sortSelected, filteredList);
-    }
-    return await sortedList;
+    return unfilteredList;
 };
 
-const filterList = function (unfilteredList, filterText, IsChecked) { 
+const filterList = async function (unfilteredList, filterText, IsChecked) {
+  
+
     if (!unfilteredList) {
-        unfilteredList = [];
+        unfilteredList = await generateReportList();
     }
-    if (!filterText && !IsChecked) {
+     
+    if (!filterText) {
+        const textBox = document.getElementById("foodListFilterTextBox");
+        if (textBox) {
+            filterText = textBox.value; 
+        }
+    } 
+
+    if (!IsChecked) {
+        if (document.getElementById("Checkbox1")) {
+            IsChecked = document.getElementById("Checkbox1").checked;
+        }
+    }
+
+    if (!filterText && !IsChecked) { 
         return unfilteredList;
     }
-    
-    const textBox = document.getElementById("foodListFilterTextBox"); 
-    if (textBox) {
-        filterText = textBox.value;
+
+
+    if (!filterText && IsChecked) {
+        return [];
     }
-    
-    //const searchBox = document.getElementById("foodsSearchTextBox");
-    //const searchTerm = searchBox.value;
-    
-    const checkBox = document.getElementById("Checkbox1");
-    if (checkBox) {
-        IsChecked = checkBox.checked;
-    } 
-    let filteredList = "";
-    if (unfilteredList && unfilteredList.list) {
-        
-        if (IsChecked) { 
-            filteredList = unfilteredList.list.item.filter(doesNotHaveFilterText);
-        }
-        else {    
-            filteredList = unfilteredList.list.item.filter(hasFilterText); 
-            }
+
+    let filteredList = [];
+  
+ //   if (unfilteredList && unfilteredList.list) {
+    if (unfilteredList) {
+        if (IsChecked) {
+            filteredList = unfilteredList.filter(doesNotHaveFilterText);
+           
         }
         else {
-        if (IsChecked) { 
-          
-                filteredList = unfilteredList.filter(hasFilterText);
-            }
-            else {  
-                filteredList = unfilteredList.filter(hasFilterText); 
-            }
+            filteredList = unfilteredList.filter(hasFilterText); 
         }
-    
+    }
+    else {
+        if (IsChecked) {
+            filteredList = unfilteredList.filter(hasFilterText);
+           
+        }
+        else {
+            filteredList = unfilteredList.filter(hasFilterText);
+           
+        }
+    } 
 
-    function hasFilterText(listItem) {
+    function hasFilterText(listItem) { 
         return listItem.name.includes(filterText);
     }
 
-    function doesNotHaveFilterText(listItem) {
-       
-        const trueOrFalse = listItem.name.includes(filterText); 
-        if (trueOrFalse) {
-            return false;
-        }
-        return true;
+    function doesNotHaveFilterText(listItem) { 
+       return listItem.name.includes(filterText); 
+    }
+    let listBody = "<div id=\"listBody\">"; 
+    if (unfilteredList) { 
+        filteredList.forEach(function (entry) {
+            listBody += "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(" + entry.ndbno + ")>" + entry.name + "</a>";
+        }); 
+    }
+    else { 
+        listBody += "<div>No foods in list</div>";
     } 
+    listBody += "</div>";
+    let resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+    resultsDiv.innerHTML = listBody;
     return filteredList;
+
+    //const checkbox = document.querySelector('input[name="sortChoices"]:checked');
+    //let sortSelected;
+    //if (checkbox) {
+    //    sortSelected = checkbox.value;
+    //}
+    //let sortedList = ""; 
+    //if (unfilteredList.length > 2) {  
+    //    filteredList = filterList(filteredList, filterText, IsChecked); 
+    //    sortedList = await sortList(sortSelected, filteredList);
+    //} 
+    //console.log(sortedList);
+    //return   sortedList;
 };
 
 const sortList = function (sortSelected, unfilteredList) {
@@ -142,8 +180,7 @@ const formatListBody = function (sortedList) {
     sortedList.forEach(function (entry) {
         listBody += "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(" + entry.ndbno + ")>" + entry.name + "</a>";
     });
-    listBody += "</div>";
-    //document.getElementById('listBody').innerHTML = listBody;
+    listBody += "</div>"; 
     return listBody;
 };
 

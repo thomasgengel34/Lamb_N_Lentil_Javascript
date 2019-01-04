@@ -17,7 +17,7 @@ async function httpCall(searchUrl) {
     }); 
 
     if (res.status === 200) {
-        const data = await res.json(); 
+        const data = await res.json();  
         return data;
     } 
     return { "status": res.status, "statusText": res.statusText };
