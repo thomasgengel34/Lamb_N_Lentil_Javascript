@@ -1,11 +1,5 @@
 ﻿"use strict";
- 
-
-(function () {
-    document.getElementById('foodsSearchSubmitBtn').addEventListener("click", ingredientSearchSubmitBtnClickListener);  
-})();
-
-
+  
 
 var displayList = function (json) {
     var toUI = checkForErrorReturned(json);
@@ -20,15 +14,6 @@ var displayList = function (json) {
     }
 };
 
-async function ingredientSearchSubmitBtnClickListener(search) {    
-    let query = document.getElementById("foodsSearchTextBox").value; 
-    if (query===null ||query===""||query===undefined) {
-        query = search;
-    } 
-    const response = await ingredientSearchSubmit(query);   
-    const text = await formatFoodList(response);  
-    document.getElementById('results').innerHTML = text;
-}
 
 function addListSearchButton(text) {
     var r = document.getElementByClass('<input/>').attr({

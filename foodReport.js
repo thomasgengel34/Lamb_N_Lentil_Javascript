@@ -2,18 +2,17 @@
 
 
 const fetchReport = function (ndbno) {
-    const report = foodReportSearchSubmit(ndbno);
-    console.log(report);
+    const report = foodReportSearchSubmit(ndbno); 
 }; 
 
-const buildFoodListSearchUrl= function(searchTerm) {
+const buildFoodListSearchUrl = function (searchTerm) {
     const defaultCount = 50;
     const key = getKey();
     const string1 = "https://api.nal.usda.gov/ndb/search?format=json&q=";
     const string2 = "&max=" + defaultCount + "&offset=0&api_key=";
     const searchUrl = string1.concat(searchTerm, string2, key);
     return searchUrl;
-}
+};
 
 
 function buildAnArrayOfNamesAndNdbnos(json) {
@@ -150,10 +149,7 @@ function getValue(item, itemKey, foreCount, nextItem, backCount) {
 
 }
 
-function getNutritionalValue(result, id) {
-    console.log(550);
-    console.log(result);
-    console.log(600);
+function getNutritionalValue(result, id) { 
     var n = getValue(result, 'nutrient_id":"' + id, 0, '},', 0);
     var nMeasures = getValue(n, "measures", 12, '" ]', 0);
     var nutritionalValue = getValue(nMeasures, "value", 8, '}', 1);

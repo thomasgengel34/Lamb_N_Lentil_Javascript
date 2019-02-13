@@ -40,14 +40,22 @@ QUnit.test("foodList-4 food list header is correct", function (assert) {
     const searchText = response.list.q;
     const total = response.list.total;
     let listHeader = "<div>";
-    listHeader += "Your search for  <span style=\"font-weight: bold; color:green\">" + searchText + "</span> found " + total + " items";
+    listHeader += "Your search for  <span style=\"font-weight: bold; color:green\">" + searchText + "</span> found " + total + " items. All 4 are shown.";
     listHeader += "</div > ";
     listHeader += "<div>";
-    listHeader += "<h3>Filter Your Results</h3> <p>Capitalization and EXACT spelling are important!</p> <input id=\"foodListFilterTextBox\" type=\"text\" placeholder=\"Enter a word to filter by\" />  <p>To Get items that the filter phrase is not in, check here  <input id=\"Checkbox1\" type=\"checkbox\" /></p><input id=\"foodListFilterBtn\" type=\"submit\" value=\"Filter and Sort\" onclick=filterList() /><h3>Sort Your Results</h3>  </div> ";
-    listHeader += "<div><p>Select a sort option:</p ><input type=\"radio\" id=\"originalOrder\" name=\"sortChoices\" value=\"original\" checked>";
-    listHeader += "<label for=\"originalOrder\">Original Order</label><input type=\"radio\" id=\"AtoZ\" name=\"sortChoices\" value=\"AtoZ\">";
-    listHeader += "<label for=\"a2z\">A to Z</label><input type=\"radio\" id=\"ZtoA\" name=\"sortChoices\" value=\"ZtoA\"><label for=\"ZtoA\">Z to A</label></div></div>";
-
+    listHeader += "<h3>Filter Your Results</h3>";
+    listHeader += "<p>Capitalization and EXACT spelling are important!</p>";
+    listHeader += "<input id=\"foodListFilterTextBox\" type=\"text\" placeholder=\"Enter a word to filter by\" />";
+    listHeader += "<p>To Get items that the filter phrase is not in, check here";
+    listHeader += "<input id=\"Checkbox1\" type=\"checkbox\" />";
+    listHeader += "<input id=\"foodListFilterBtn\" type=\"submit\" value=\"Filter\" onclick=filterList() /></p>";
+    listHeader += "<h3>Sort Your Results</h3>";
+    listHeader += "</div> ";
+    listHeader += "<div> Select a sort option:";
+    listHeader += "<input type=\"radio\" id=\"AtoZ\" name=\"sortChoices\" value=\"AtoZ\" checked onclick=sortListAtoZ()  >";
+    listHeader += "<label for=\"a2z\">A to Z</label>";
+    listHeader += "<input type=\"radio\" id=\"ZtoA\" name=\"sortChoices\" value=\"ZtoA\" onclick=sortListZtoA()>";
+    listHeader += "<label for=\"ZtoA\">Z to A</label></div></div>";
     let testResult = formatFoodListHeader(response);
     assert.equal(listHeader, testResult);
 });
@@ -65,104 +73,8 @@ QUnit.test("foodList-5 food list body is correct", function (assert) {
     assert.equal(correct.replace(" ", "").valueOf, result.replace(" ", "").valueOf);
 });
 
-QUnit.test("foodlist-6 sort", function (assert) {
-    const testArray = ["a", "b", "c"];
-    let returned = sortList("original", testArray);
-    assert.equal(testArray, returned, "original order comes out of sort method initially");
-    returned = sortList("random string", testArray);
-    assert.equal(testArray, returned, "original order comes out of sort method initially with bad selector");
-    const reversed = ["c", "b", "a"];
-    returned = sortList("ZtoA", testArray);
-    assert.equal(returned.valueOf, reversed.valueOf, "reversing the order works");
-    returned = sortList("original", returned);
-    assert.equal(returned, testArray, "reversing the order works");
-    returned = sortList("original", testArray);
-    assert.equal(returned, testArray, "returning to original restores original sort order from an AZ sort");
-    returned = sortList("original".valueOf, reversed.valueOf);
-    assert.equal(returned.valueOf, testArray.valueOf, "returning to original restores original sort order from an ZA sort");
-});
 
-QUnit.test("foodlist-7 filter", function (assert) {
-    const testNumber = 5;
-    assert.expect(testNumber);
-    var done = assert.async(testNumber);
-    const testFood = {
-        "list": {
-            "item": [
-                { "name": "apple pie" },
-                { "name": "apple tree" },
-                { "name": "banana bread" },
-                { "name": "black bread" },
-                { "name": "blueberry bush" },
-                { "name": "cherry bush" },
-                { "name": "cherry pie" },
-                { "name": "egg plant" }]
-        }
-    };
-
-    const fixture = document.getElementById("qunit-fixture");
-    const node = document.createElement("div");
-    node.setAttribute("id", "results");
-    fixture.appendChild(node);
-
-    let filterText = "";
-    let IsChecked = false;
-
-
-    setTimeout(function (assert) {
-        const returned = filterList(testFood, filterText, IsChecked);
-        done();
-        QUnit.assert.deepEqual(returned.valueOf, testFood.valueOf, "test for null filter, no exclusions - should return everything");
-    }
-    );
-
-    filterText = "";
-    IsChecked = true;
-    let correct = [];
-    setTimeout(function (assert) {
-        const returned = filterList(testFood, filterText, IsChecked);
-        done();
-        QUnit.assert.deepEqual(returned.valueOf, correct.valueOf, "test for null filter, all exclusions - should return nothing");
-    });
-
-    filterText = "pie";
-    IsChecked = false;
-    correct = [{ "name": "apple pie" }, { "name": "cherry pie" }];
-    setTimeout(function (assert) {
-        const returned = filterList(testFood, filterText, IsChecked);
-        done();
-        QUnit.assert.deepEqual(returned.valueOf, correct.valueOf, "test for null filter, filter for pie");
-    });
-
-
-    filterText = "qqq";
-    IsChecked = false;
-    correct = [];
-    setTimeout(function (assert) {
-        const returned = filterList(testFood, filterText, IsChecked);
-        done();
-        QUnit.assert.deepEqual(returned.valueOf, correct.valueOf, "nothing is in the filter requested");
-    });
-
-    filterText = "p";
-    IsChecked = false;
-    correct = [{ "name": "egg plant" }, { "name": "cherry pie" }, { "name": "apple tree" }, { "name": "apple pie" }];
-    let returned = [];
-
-
-    setTimeout(function (assert) {
-        returned = filterList(testFood, filterText, IsChecked);
-        done();
-
-
-    }, 3000);
-
-    returned = sortList("ZtoA", returned);
-    QUnit.assert.deepEqual(returned.valueOf, correct.valueOf, "filter and reverse sort");
-
-});
-
-QUnit.test("foodList-8 formatFoodListBody", function (assert) {
+QUnit.test("foodList-6 formatFoodListBody", function (assert) { 
     const response = {
         "list": {
             "q": "Apache",
@@ -226,7 +138,7 @@ QUnit.test("foodList-8 formatFoodListBody", function (assert) {
 
 });
 
-QUnit.test("foodList-9 formatFoodListBody filtered", function (assert) {
+QUnit.test("foodList-7 formatFoodListBody filtered", function (assert) {
     const testNumber = 1;
     assert.expect(testNumber);
     var done = assert.async(testNumber);
@@ -276,7 +188,7 @@ QUnit.test("foodList-9 formatFoodListBody filtered", function (assert) {
 );
 
 
-QUnit.test("foodList-10 populateResultsButtonText", function (assert) {
+QUnit.test("foodList-8 populateResultsButtonText", function (assert) {
     assert.expect(7);
     let total = 0;
     let correct = "Show Result";
@@ -308,15 +220,13 @@ QUnit.test("foodList-10 populateResultsButtonText", function (assert) {
     assert.equal(returned, correct);
 });
 
-QUnit.test("foodList-11 ui shows the correct search for ff and filter on OLD and box unchecked", function (assert) {
-    const unfilteredList = filterList(getFF(), "OLD", false); 
+QUnit.test("foodList-9 ui shows the correct search for ff and filter on OLD and box unchecked", function (assert) {
+    const unfilteredList = filterList(getFF(), "OLD", false);
     const fixture = document.getElementById("qunit-fixture");
     const node = document.createElement("div");
     node.setAttribute("id", "results");
     fixture.appendChild(node);
     var foo = document.getElementById("results");
-    console.log(318);
-    console.log(foo);
     const done = assert.async();
 
     // assert.equal(1, 2, "write the test and get it to work in the browser");
@@ -343,25 +253,17 @@ QUnit.test("foodList-11 ui shows the correct search for ff and filter on OLD and
     const searchTerm = "ff";
     const filterText = "OLD";
     const IsChecked = false;
-    let passOrFail = false; 
-  console.log(347);
-        console.log(foo);
+    let passOrFail = false;
 
 
     setTimeout(async function () {
-        console.log(349);
-        console.log(foo);
         let returned = await innerTest1();
         assert.equal(returned, true, "under developement");
         done();
     });
 
-     function innerTest1() {
-        console.log(357);
-        console.log(foo);
-        let response =  filterList(unfilteredList, filterText, IsChecked);
-        console.log(360);
-        console.log(foo);
+    function innerTest1() {
+        let response = filterList(unfilteredList, filterText, IsChecked);
         if (response.valueOf === correct.valueOf) {
             passOrFail = true;
         }
