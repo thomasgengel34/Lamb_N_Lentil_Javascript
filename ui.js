@@ -1,6 +1,6 @@
 ﻿"use strict";
-  
-
+ 
+ 
 var displayList = function (json) {
     var toUI = checkForErrorReturned(json);
     if (toUI === "") {
@@ -36,7 +36,7 @@ function myFunction() {
     });
 
     document.getElementById("results").append("<br/>" + name + "<br/>" + ndbno + button);
-} 
+}
 
 function showAllResultClickListener() {
     console.log("here");
@@ -45,6 +45,36 @@ function showAllResultClickListener() {
 
 function addItemDetailButton(namesAndNdbnos) {
     console.log(namesAndNdbnos);
+}; 
+
+
+
+const getDataFromFoodSearchInput = function() {
+    let searchString = "";
+    let filterString = "";
+    let unFilterChecked = false;
+    let sortOrderChecked = true;
+    if (document) {
+        let f = "foodsSearchTextBox";
+        if (document.getElementById(f)) {
+            searchString = document.getElementById(f).value;
+        }
+        f = "foodListFilterTextBox";
+        if (document.getElementById(f)) {
+            filterString = document.getElementById(f).value;
+        }
+        f = "reverseFilterFoodSearchCheckbox";
+        if (document.getElementById(f)) {
+            unFilterChecked = document.getElementById(f).checked; 
+        }
+        f = "AtoZ";
+        if (document.getElementById(f)) {
+            sortOrderChecked = document.getElementById(f).checked;
+        }
+
+    }
+    const settings =  
+        { "searchString": searchString, "filterString": filterString, "unFilterChecked": unFilterChecked, "sortOrderChecked": sortOrderChecked };
+    
+    return settings;
 };
-
-

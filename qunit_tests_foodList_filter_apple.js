@@ -109,7 +109,7 @@ QUnit.test("foodList_filter-6  filter \'apple pie\' with reverse sort", function
     setTimeout(async function (assert) {
         let returned = await innerTest1(); 
        
-        returned = sortList(descending, returned);   
+        returned = sortList(returned, false);   
        QUnit.assert.ok(returned[0].name === correct[0].name, "0  " + returned[0].name + " " + correct[0].name ); 
         QUnit.assert.ok(returned.length === correct.length, "length" + returned.length + " " + correct.length);  
         done();

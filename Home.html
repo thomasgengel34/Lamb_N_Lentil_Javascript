@@ -40,9 +40,32 @@
         <h3>Search For Ingredients</h3>
         <div class="navbar-form navbar-left ">
             <div class="form-group">
-                <p>Searches in the USDA databases are limited to 43 characters. Sorry!</p>
-                <input id="foodsSearchTextBox" type="text" placeholder="Search" autofocus>
-                <button id="foodsSearchSubmitBtn" type="submit" class="btn btn-default ">Search</button>
+                <p></p>
+                <span class="tooltip">
+                    <input id="foodsSearchTextBox" type="text" placeholder="Search" autofocus>
+                    <span class="tooltiptext">Searches in the USDA databases are limited to 43 characters. Sorry! </span>
+                </span>
+
+
+
+                <span class="tooltip">
+                    <input id="foodListFilterTextBox" type="text" placeholder="Enter a word to filter by" required />
+                    <span class="tooltiptext">Capitalization and EXACT spelling are important!</span>
+                </span>
+                <p>
+                    To Get items that the filter phrase is not in, check here <input id="reverseFilterFoodSearchCheckbox" type="checkbox" />
+                </p>
+
+                <!--<input id="foodListFilterBtn" type="submit" value="Filter" onclick=filterList() />-->
+
+                <span>Sort</span>
+                <input type="radio" id="AtoZ" name="listSortChoices" value="AtoZ" checked>
+                <label for="a2z">A to Z</label>
+                <input type="radio" id="ZtoA" name="listSortChoices" value="ZtoA">
+                <label for="ZtoA">Z to A</label>
+                <p>
+                    <button id="foodsSearchSubmitBtn" type="submit" class="btn btn-default ">Search</button>
+                </p>
             </div>
         </div>
 
@@ -95,11 +118,11 @@
 
     </footer>
     <script src="Scripts/pageSetup.js"></script>
+    <script src="Scripts/ui.js"></script>
     <script src="Scripts/foodList.js"></script>
     <script src="Scripts/foodList _filter.js"></script>
-    <script src="Scripts/foodList_sort.js"></script>
-    <script src="Scripts/foodReport.js"></script>
-    <script src="Scripts/ui.js"></script>
+    <script src="Scripts/foodReport.js"></script> 
+    
     <script src="Scripts/http.js"></script>
     <script src="Scripts/MinimumDailyRequirements.js"></script>
     <!--<script src="Scripts/Dragging.js"></script>

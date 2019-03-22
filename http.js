@@ -5,7 +5,7 @@ const getKey = function () {
     return key;
 };
 
-const ingredientSearchSubmit = async function (search) {
+const ingredientSearchSubmit = async function ingredientSearchSubmit(search) {
     let searchUrl = buildFoodListSearchUrl(search);
     const responseJson = await httpCall(searchUrl);
     return responseJson;
@@ -28,7 +28,7 @@ const getErrorMessage = function (searchQuery) {
     return errorMessage;
 };
 
-const checkForErrorReturned = function (json) {
+const checkForErrorReturned = function (json) { 
     let message = "";
     if (JSON.stringify(json).indexOf("error") !== -1) {
         message = getErrorMessage();

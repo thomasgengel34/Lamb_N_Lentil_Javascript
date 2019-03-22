@@ -107,7 +107,15 @@ QUnit.test("foodList_filter_numbers-4  filter \'12\' with reverse sort", functio
     const numberOfTests = 8;
     assert.expect(numberOfTests);
     var done = assert.async();
-    const foodList = getFoodList_numbers(); 
+    const foodList = [
+        { "name": "apple pie  12" },
+        { "name": "apple 123tree" },
+        { "name": "banana341233 bread" },
+        { "name": "black312 bread" },
+        { "name": "12blueberry bush" },
+        { "name": "che2312rry bush" },
+        { "name": "cherry pie" },
+        { "name": "eg12g plant" }];
     const fixture = document.getElementById("qunit-fixture");
     const node = document.createElement("div");
     node.setAttribute("id", "results");
@@ -115,27 +123,47 @@ QUnit.test("foodList_filter_numbers-4  filter \'12\' with reverse sort", functio
 
     let filterText = "12";
     let IsChecked = false;
+   
+    let correct =
+        [ 
+            {
+                "name": "eg12g plant"
+            },
+            {
+                "name": "che2312rry bush"
+            },
+            
+            {
+                "name": "black312 bread"
+            },
+            {
+                "name": "banana341233 bread"
+            },
+            
+            {
+                "name": "apple pie  12"
+            },
+            {
+                "name": "apple 123tree"
+            },
+            {
+                "name": "12blueberry bush"
+            } 
+        ];
 
-    let correct = [{ "name": "apple pie  12" },
-        { "name": "apple 123tree" },
-        { "name": "banana341233 bread" },
-        { "name": "black312 bread" },
-        { "name": "12blueberry bush" },
-        { "name": "che2312rry bush" }, 
-        { "name": "eg12g plant" }].reverse();
+   
        
     setTimeout(async function (assert) {
-        let returned = await innerTest1(); 
-       
-        returned = sortList(descending, returned);   
+        let returned = await innerTest1();  
+        returned = sortList(returned, true);    
        QUnit.assert.ok(returned[0].name === correct[0].name, "0  " + returned[0].name + " " + correct[0].name );
        QUnit.assert.ok(returned[1].name === correct[1].name, "1  " + returned[1].name + " " + correct[1].name );
        QUnit.assert.ok(returned[2].name === correct[2].name, "0  " + returned[2].name + " " + correct[2].name );
       QUnit.assert.ok(returned[3].name === correct[3].name, "0  " + returned[3].name + " " + correct[3].name); 
-      QUnit.assert.ok(returned[4].name === correct[4].name, "0  " + returned[4].name + " " + correct[4].name); 
-      QUnit.assert.ok(returned[5].name === correct[5].name, "0  " + returned[5].name + " " + correct[5].name); 
-        QUnit.assert.ok(returned[6].name === correct[6].name, "0  " + returned[6].name + " " + correct[6].name); 
-        QUnit.assert.ok(returned.length ===correct.length, "length");  
+      QUnit.assert.ok(returned[4].name === correct[4].name, "0  " + returned[4].name + " --- " + correct[4].name); 
+      QUnit.assert.ok(returned[5].name === correct[5].name, "0  " + returned[5].name + " --- " + correct[5].name); 
+         QUnit.assert.ok(returned[6].name === correct[6].name, "0  " + returned[6].name + " " + correct[6].name); 
+        QUnit.assert.ok(returned.length ===correct.length, "length "+ returned.length+" "+correct.length);  
         done();
           
         function innerTest1() {
