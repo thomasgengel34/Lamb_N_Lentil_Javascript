@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <input id="Button1" type="button" value="button" />
+    <script>
+        const searchUrl = "https://api.nal.usda.gov/ndb/search?format=json&q=ff&max=50&offset=0&api_key=sFtfcrVdSOKA4ip3Z1MlylQmdj5Uw3JoIIWlbeQm";
+        const btn = document.getElementById("Button1");
+        btn.onclick = async function () {
+            const response = await httpCall(searchUrl);
+        
+        };
+
+
+      let res = { "status": -1 };
+
+        const httpCall = async function httpCall(searchUrl) {
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    //'Content-Type': 'application/json',
+                    //'Access-Control-Allow-Origin': '*',
+                    //'Cross-Origin-Resource-Policy':'same-origin',
+                    //'Access-Control-Allow-Headers': 'access-control-allow-headers'
+                },
+                mode: 'cors',
+                cache: 'default'
+            };
+            res = await fetch(searchUrl, requestOptions).catch(function (error) {
+                console.log('There has been a problem with your fetch operation: ', error.message);
+            });
+
+            if ( res &&  res.status === 200) {
+                const data = await res.json();
+                return data;
+            }
+           return { "status": res.status, "statusText": res.statusText };
+         
+            
+        };
+
+        const getErrorMessage = function getErrorMessage(searchUrl) {
+            const errorMessage = "<div id=\"errorMessage\">Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.</div>";
+            return errorMessage;
+        };
+
+        const checkForErrorReturned = function (json) {
+            let message = "";
+            if (JSON.stringify(json).indexOf("error") !== -1) {
+                message = this.getErrorMessage();
+            }
+            return message;
+        };
+    </script>
+</body>
+</html>

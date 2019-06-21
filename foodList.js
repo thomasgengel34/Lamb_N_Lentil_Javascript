@@ -1,146 +1,201 @@
-﻿"use strict";
+﻿"use strict"; 
+const foodList = { 
+    noItemsWereFound: "<div>Your search for  <span style=\"font-weight: bold; color:green\">" +
+        "</span> found 0 items. </div> <div><div></div>",
+
+    clickListenerQueryDefaultParameter: "query initial value for testing",
+    clickListenerFilterStringDefaultParameter: "filter string initial value for testing",
+    clickListenerSortOrderDefaultParameter: "sort order initial value for testing",
+    clickListenerSearchFunctionDefaultParameter: "for testing",
 
 
-async function ingredientSearchSubmitBtnClickListener(search) { // why is search a parameter? testing - add other 3
-    let query = search;
-    let filterString = "";
-    let unfilterCheck = false;
-    let sort = true;
-    const settings = getDataFromFoodSearchInput();
-    query = settings.searchString;
-    filterString = settings.filterString;
-    unfilterCheck = settings.unFilterChecked;
-    console.log(13);
-    console.log(settings.unFilterChecked);
-    console.log(15);
-    sort = settings.sortOrderChecked;
+    ingredientSearchSubmitBtnClickListener: async function ingredientSearchSubmitBtnClickListener(query = "", filterString = "", excludeInclude = ui.excludeInclude.include, sortOrder = ui.ascendDescend.ascend, searchFunction = httpFoodList.ingredientSearchSubmit) {
+     
+        const settings = ui.getDataFromFoodSearchInput(query, filterString, excludeInclude, sortOrder);
+        foodList.ingredientSearchSubmitBtnClickListener.searchFunction = searchFunction;
+        foodList.clickListenerQueryDefaultParameter = query; 
+        foodList.clickListenerFilterStringDefaultParameter = filterString;  
+        foodList.clickListenerSortOrderDefaultParameter = sortOrder; 
+        foodList.clickListenerSearchFunctionDefaultParameter = searchFunction; 
 
-    // pattern is useful for testing - duplicate for the other variables but use a ternary operator
-    if (query === null || query === "" || query === undefined) {
-        query = search;
-    }
-    const response = await ingredientSearchSubmit(query);
-    const filtered = filterResponse(response, filterString, unfilterCheck);
-    const sorted = sortList(filtered, sort);
-    const text = formatFoodList(sorted, response);
+        query = settings.searchString;
+        filterString = settings.filterString;
+        excludeInclude = settings.excludeOrInclude;
+        sortOrder = settings.sortOrder;
 
-    if (document) {
-        if (document.getElementById("results")) {
-            document.getElementById('results').innerHTML = text;
+        let response = { "name": "initial test", "list": { "item": [] } };
+        let text = "";
+        const notFound = [{
+            "name": "not found",
+            "list": { "item": [] }
+        }];
+
+        response = await searchFunction(query);
+
+        let list = [];
+        if (response.list && response.list.item) { 
+            list = response.list.item;
         }
-    }
-}
+        if (response.errors) { 
+            list = notFound;
+        }
 
-const filterResponse = function (response, filterString, unfilteredCheck) {
-    let filtered = [];
-    let list = response.list.item;
-    if (list.length === 0) {
+        let filtered = list;
+        if (!query.includes(filterString)) { 
+            if (query !== filterString) { 
+                filtered = foodList.filterList(list, filterString, excludeInclude);
+                const sorted = foodList.sortList(filtered, sortOrder);
+                text = foodList.formatFoodList(sorted, response);
+            }
+        }
+        else if (query.includes(filterString)) { 
+            if (response.list && response.list.item) { 
+                filtered = response.list.item;
+                if (excludeInclude == ui.excludeInclude.include) { 
+                    const sorted = foodList.sortList(filtered, sortOrder);
+                    text = foodList.formatFoodList(sorted, response);
+                }
+                else if (excludeInclude == ui.excludeInclude.exclude) { 
+                    text = foodList.noItemsWereFound;
+                }
+            }
+            else { 
+                text = response;
+            }
+        }
+        if (document) { 
+            if (document.getElementById("results")) { 
+                document.getElementById('results').innerHTML = text;
+            }
+        }
+        return text;
+    },
+
+    filterList: function filterList(list = [], filterString = '', excludeInclude = ui.excludeInclude.include) { 
+        let filtered = [];
+        if (list.length === 0 || list[0] === [{ "name": "not found" }] || !Array.isArray(list) || (filterString === "" && excludeInclude === ui.excludeInclude.include)) {
+          return list;
+        }
+
+        if (excludeInclude === ui.excludeInclude.include) { 
+            filtered = list.filter(val => { return val.name.includes(filterString); });
+
+        }
+
+        else if (excludeInclude == ui.excludeInclude.exclude) { 
+                filtered = list.filter(val => { return !val.name.includes(filterString); }); 
+      }
+        return filtered;
+    },
+
+
+    sortList: function (list, sortOrder) { 
+        if (Array.isArray(list)) { 
+            if (sortOrder === ui.ascendDescend.descend) { 
+                list.sort((a, b) => a.name < b.name ? 1 : b.name < a.name ? -1 : 0);
+            }
+            else { 
+                list.sort((a, b) => a.name > b.name ? 1 : b.name > a.name ? -1 : 0);
+            }
+        }
+        else { 
+            list = "bad value";
+        }
         return list;
-    }
-    if (!unfilteredCheck) {
-        filtered = list.filter(val => { return val.name.includes(filterString); });
-    }
-    else if (unfilteredCheck) {
-        if (!filterString) {
-            return response;
+    },
+
+
+    formatFoodList: function (list, response) { 
+        if (!Array.isArray(list)) { 
+            list = "bad value";
+            return list;
         }
+        let formattedFoodList = this.formatFoodListHeader(list, response);
+        if (formattedFoodList !== this.noItemsWereFound) { 
+            formattedFoodList += this.formatFoodListBody(list);
+        }
+        return formattedFoodList;
+    },
+
+
+
+    formatFoodListHeader: function (list, response = { "list": [] }) {  
+       const noItemsWereFound = this.noItemsWereFound; 
+        let searchText = "";
+        let total = 0;
+        let shown = 50;
+        if (response.list) {
+            if (response.list.q) { 
+                searchText = response.list.q; 
+            }
+            if (list.length) { 
+                total = list.length;
+                if (total < 51) { 
+                    shown = "All " + total;
+                }
+                else {     
+                    shown = total;
+                }
+            }
+        }
+        else { 
+            return noItemsWereFound;
+        }
+         
+        let listHeader = "<div>";
+        let itemItems = " item. ";
+        if (total !== 1) { 
+            itemItems = " items. ";
+        }
+        listHeader += "Your search for  <span style=\"font-weight: bold; color:green\">" +
+            searchText + "</span> found " + total + itemItems;
+
+        if (total > 0) { 
+            listHeader + shown;
+        }
+        if (!response.errors) { 
+            if (total === 1) { 
+                listHeader + " is shown.";
+            }
+            if (total > 1) { 
+                listHeader + " are shown.";
+            }
+        }
+        listHeader += "</div> ";
+        listHeader += "<div>";
+        return listHeader;
+    },
+
+    formatFoodListBody: function (list) {
+        const rejectMessage = "<div  id=\"listBody\">There is an error in transmitting the data back. Please try your request again.</div>";
+        if (!Array.isArray(list)) { 
+            return rejectMessage;
+        }
+      
         else {
-            filtered = list.filter(val => { return !(val.name.includes(filterString)); });
-
-        }
-    }
-    return filtered;
-};
-
-
-let sortList = function (list, sort) {
-    if (Array.isArray(list)) {
-        if (sort) {
-            list.sort((a, b) => a.name < b.name ? 1 : (b.name < a.name) ? -1 : 0);
-        }
-
-        if (!sort) {
-            list.sort((a, b) => a.name > b.name ? 1 : (b.name > a.name) ? -1 : 0);
-        }
-    }
-    else {
-        list = "bad value";
-    }
-    return list;
-};
-
-
-let formatFoodList = function (list, response) {
-
-    let formattedFoodList = formatFoodListHeader(list, response);
-
-    formattedFoodList += formatListBody(list);
-    return formattedFoodList;
-};
-
-
-
-const formatFoodListHeader = function (list, response = { "list": [] }) {
-    let searchText = "";
-    let total = 0;
-    let shown = 50;
-    if (response.list) {
-        if (response.list.q) {
-            searchText = response.list.q;
-        }
-        if (list) {
-            total = list.length;
-            if (total < 51) {
-                shown = "All " + total;
+            let listBody = "<div>";
+            if (Array.isArray(list)) { 
+                list.forEach(function (entry) {
+                    listBody += "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(" + entry.ndbno + ")>" + entry.name + "</a>";
+                });
             }
-            else {
-                shown = total;
-            }
+            listBody += "</div>";
+            return listBody;
         }
-    }
+    },
 
-    let listHeader = "<div>";
-    listHeader += "Your search for  <span style=\"font-weight: bold; color:green\">" + searchText + "</span> found " + total + " items. " + shown + " are shown.";
-    listHeader += "</div > ";
-    listHeader += "<div>";
-    return listHeader;
-};
-
-const formatListBody = function (list) {
-    if (!Array.isArray(list)) {
-        if (!list.list || !list.list.item || !Array.isArray(list.list.item)) {
-            return "div  id=\"listBody\">There is an error in transmitting the data back. Please try your request again.</div>";
-        }
-    }
-    else {
-        let listBody = "<div>";
-        list.forEach(function (entry) {
-            listBody += "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(" + entry.ndbno + ")>" + entry.name + "</a>";
-        });
-        listBody += "</div>";
-        return listBody;
+    buildFoodListSearchUrl: function (search) { 
+        const string1 = "https://api.nal.usda.gov/ndb/search?format=json&q=";
+        const string2 = "&max=50&offset=0&api_key=";
+        const key = httpFoodList.key;
+        const searchUrl = string1.concat(search, string2, key);
+        return searchUrl;
     }
 };
 
-const populateResultsButtonText = function (total) {
-    let text = "Show First Fifty Results";
-    if (total === 50) {
-        text = "Show Fifty Results";
-    }
-    if (total < 50 && total > 1) {
-        text = "Show the " + total + " Results";
-    }
-    if (total - 1 < 1) {
-        text = "Show Result";
-    }
-    return text;
-};
 
 
-
-
-const foodList = (function () {
-    document.getElementById('foodsSearchSubmitBtn').addEventListener("click", ingredientSearchSubmitBtnClickListener);
-
+const foodListIIFE = (function () { 
+    document.getElementById('foodsSearchSubmitBtn').addEventListener("click", foodList.ingredientSearchSubmitBtnClickListener);
 })();
 

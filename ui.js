@@ -1,80 +1,52 @@
 ﻿"use strict";
- 
- 
-var displayList = function (json) {
-    var toUI = checkForErrorReturned(json);
-    if (toUI === "") {
-        toUI = "Search Term : " + json.list.q;
-        var total = json.list.total;
-        toUI = toUI + "  Total Found: " + total + "  ";
-        document.getElementById('results').text(toUI);
-        var text = populateResultsButtonText(total);
 
-        addListSearchButton(text);
-    }
-};
+const ui = {
+    ascendDescend: {
+        ascend: "ascend",
+        descend: "descend"
+    },
+    excludeInclude: {
+        exclude: "exclude",
+        include: "include"
+    },
 
+    getDataFromFoodSearchInput: function (searchString = "", filterString = "", excludeOrInclude = ui.excludeInclude.include, sortOrder = ui.ascendDescend.ascend) {
+        
+        if (document) { 
+            let f = "foodsSearchTextBox";
+            if (document.getElementById(f)) {
+                searchString = document.getElementById(f).value;
+            }
+            f = "foodListFilterTextBox";
+            if (document.getElementById(f)) {
+                filterString = document.getElementById(f).value;
+            }
+            f = "excludeFilterFromSearchCheckbox";
+            if (document.getElementById(f)) { 
+                const IsExcludeChecked = document.getElementById(f).checked; 
+                if (IsExcludeChecked) {
+                    excludeOrInclude = ui.excludeInclude.exclude; 
+                }
+            }
+            f = "ZtoA";
 
-function addListSearchButton(text) {
-    var r = document.getElementByClass('<input/>').attr({
-        type: "button",
-        id: "field",
-        value: text,
-        onclick: "showAllResultClickListener()"
-    });
-    document.getElementById("results").append(r);
-}
+            if (document.getElementById(f)) {
+                const order = document.getElementById(f).checked;
 
-// this appears more advanced than addListSearchButton(text). Not sure which one should be used.  .  
-function myFunction() {
-    var button = document.getElementByClass('<input/>').attr({
-        type: "button",
-        id: ndbno,
-        value: "Show Nutrient Details ",
-        onclick:
-            "showNutrientDetailsClickListener(id)"
-    });
-
-    document.getElementById("results").append("<br/>" + name + "<br/>" + ndbno + button);
-}
-
-function showAllResultClickListener() {
-    console.log("here");
-}
-
-
-function addItemDetailButton(namesAndNdbnos) {
-    console.log(namesAndNdbnos);
-}; 
-
-
-
-const getDataFromFoodSearchInput = function() {
-    let searchString = "";
-    let filterString = "";
-    let unFilterChecked = false;
-    let sortOrderChecked = true;
-    if (document) {
-        let f = "foodsSearchTextBox";
-        if (document.getElementById(f)) {
-            searchString = document.getElementById(f).value;
+                if (sortOrder != ui.ascendDescend.ascend || sortOrder !== ui.ascendDescend.descend) {
+                    if (order) {
+                        sortOrder = ui.ascendDescend.descend;
+                    }
+                    else {
+                        sortOrder = ui.ascendDescend.ascend;
+                    }
+                }
+            }
         }
-        f = "foodListFilterTextBox";
-        if (document.getElementById(f)) {
-            filterString = document.getElementById(f).value;
-        }
-        f = "reverseFilterFoodSearchCheckbox";
-        if (document.getElementById(f)) {
-            unFilterChecked = document.getElementById(f).checked; 
-        }
-        f = "AtoZ";
-        if (document.getElementById(f)) {
-            sortOrderChecked = document.getElementById(f).checked;
-        }
-
-    }
-    const settings =  
-        { "searchString": searchString, "filterString": filterString, "unFilterChecked": unFilterChecked, "sortOrderChecked": sortOrderChecked };
     
-    return settings;
+        const settings =
+            { "searchString": searchString, "filterString": filterString, "excludeOrInclude": excludeOrInclude, "sortOrder": sortOrder };
+        return settings;
+    }
 };
+

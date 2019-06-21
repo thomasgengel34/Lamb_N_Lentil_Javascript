@@ -1,7 +1,7 @@
 ﻿"use strict";
 
-const getFF = function () {
-    return {
+const qunit_tests_getFF =  {
+   list: {
         "list": {
             "q": "ff",
             "sr": "1",
@@ -414,5 +414,5 @@ const getFF = function () {
                 }
             ]
         }
-    };
+    } 
 }; 

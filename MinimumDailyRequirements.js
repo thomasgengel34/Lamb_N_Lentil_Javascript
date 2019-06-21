@@ -1,4 +1,4 @@
-var minDailyReq = [
+const minimumDailyRequirements = [
     {
         "nutrient": "fat",
         "nutrient_id": 204,

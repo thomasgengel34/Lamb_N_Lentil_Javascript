@@ -1,6 +1,7 @@
 ﻿"use strict";
 
-function setupDivForTesting() {
+const qunit_tests_setup = {  
+    setupDivForTesting: function setupDivForTesting() { 
     const fixture = document.getElementById("qunit-fixture");
     const node = document.createElement("div");
     node.setAttribute("id", "results");
@@ -13,4 +14,5 @@ function setupDivForTesting() {
     node.appendChild(node2);
     fixture.appendChild(node);
     return fixture;
-}
+} 
+}; 

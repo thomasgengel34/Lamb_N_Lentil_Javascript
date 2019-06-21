@@ -1,4 +1,9 @@
-﻿var greeting = 'Hello World'; 
+﻿"use strict";
+
+const qunit_default = {
+greeting : 'Hello World' 
+};
+ 
 
 (function () { 
     let elemHome = document.createElement('a'); 

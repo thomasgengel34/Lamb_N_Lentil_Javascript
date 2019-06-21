@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
-   
+
+    <link href="Content/Site.css" rel="stylesheet" />
 </head>
 <body>
     <!-- Draggable DIV -->
-    <div id="mydiv" class="draggee">
+    <div id="mydiv" class="draggee" draggable="true">
         <div>
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <div id="mydivheader" class="dragged ">Click here to move</div>
@@ -30,8 +31,8 @@
     <script>
         const element = document.getElementById("mydiv");
         const element1 = document.getElementById("mydiv1");
-        dragElement(element);
-        dragElement(element1); 
+        dragging.dragElement(element);
+        dragging.dragElement(element1); 
     </script>
 </body>
 </html>
