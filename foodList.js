@@ -142,7 +142,7 @@ const foodList = {
             return noItemsWereFound;
         }
          
-        let listHeader = "<div>";
+        let listHeader = "<div id=\"listHeaderDiv\" >";
         let itemItems = " item. ";
         if (total !== 1) { 
             itemItems = " items. ";
@@ -166,7 +166,7 @@ const foodList = {
         return listHeader;
     },
 
-    formatFoodListBody: function (list) {
+    formatFoodListBody: function (list) { 
         const rejectMessage = "<div  id=\"listBody\">There is an error in transmitting the data back. Please try your request again.</div>";
         if (!Array.isArray(list)) { 
             return rejectMessage;
@@ -175,8 +175,8 @@ const foodList = {
         else {
             let listBody = "<div>";
             if (Array.isArray(list)) { 
-                list.forEach(function (entry) {
-                    listBody += "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(" + entry.ndbno + ")>" + entry.name + "</a>";
+                list.forEach(function (entry) { 
+                    listBody += "<a href=\"#\" id=\"fetch"+entry.ndbno+"ReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(" + entry.ndbno + ")  draggable=\"true\" ondragstart=\"dragging.drag(event)\">" + entry.name + "</a>";
                 });
             }
             listBody += "</div>";

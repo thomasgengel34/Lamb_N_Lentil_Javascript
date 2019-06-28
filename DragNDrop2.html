@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        /*#div1, #div2, #div3, #div4 {
+            float: left;
+            width: 100px;
+            height: 35px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid black;
+        }*/
+        .dropZone {
+            float: left;
+            width: 10px;
+            height: 10px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid red;
+            background-color: yellow;
+        }
+
+        /*.item {
+            background-color: green;
+            height: 100px;
+            width: 100px;
+            border: 1px solid orange;
+        }
+
+        container {
+            grid-template-columns: 100px 50px 100px;
+            grid-template-rows: 80px auto 80px;
+            grid-column-gap: 10px;
+            grid-row-gap: 15px;
+        }*/
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto;
+            background-color: #2196F3;
+            padding: 10px;
+        }
+
+        .grid-item {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+        }
+    </style>
+
+
+    <script src="Scripts/Dragging.js"></script>
+
+
+</head>
+<body class="dropEvent" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)">
+
+    <h2>Drag and Drop Image anywhere on page</h2>
+    <img src="Images/favicon.jpg" draggable="true" ondragstart="dragging.drag(event)" id="drag1" width="88" height="31">
+    <img src="Images/favicon.jpg" draggable="true" ondragstart="dragging.drag(event)" id="drag1" width="88" height="31">
+    <!--<div class="container">
+        <div class="item item-1 "></div>
+        <div class="item item-2"></div>
+        <div class="item item-3"></div>"
+    </div>-->
+    <div class="grid-container">
+        <div class="grid-item">1</div>
+        <div class="grid-item">2</div>
+        <div class="grid-item">3</div>
+        <div class="grid-item">4</div>
+        <div class="grid-item">5</div>
+        <div class="grid-item">6</div>
+        <div class="grid-item">7</div>
+        <div class="grid-item">8</div>
+        <div class="grid-item">9</div>
+        <div class="grid-item">10</div>
+        <div class="grid-item">11</div>
+        <div class="grid-item">12</div>
+        <div class="grid-item">13</div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item">36</div>
+        <div class="grid-item">1</div>
+        <div class="grid-item">2</div>
+        <div class="grid-item">3</div>
+        <div class="grid-item">4</div>
+        <div class="grid-item">5</div>
+        <div class="grid-item">6</div>
+        <div class="grid-item">7</div>
+        <div class="grid-item">8</div>
+        <div class="grid-item">9</div>
+        <div class="grid-item">10</div>
+        <div class="grid-item">11</div>
+        <div class="grid-item">12</div>
+        <div class="grid-item">13</div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item">71</div>
+        <div class="grid-item">72</div>
+        <div class="grid-item">1</div>
+        <div class="grid-item">2</div>
+        <div class="grid-item">3</div>
+        <div class="grid-item">4</div>
+        <div class="grid-item">5</div>
+        <div class="grid-item">6</div>
+        <div class="grid-item">7</div>
+        <div class="grid-item">8</div>
+        <div class="grid-item">9</div>
+        <div class="grid-item">10</div>
+        <div class="grid-item">11</div>
+        <div class="grid-item">12</div>
+        <div class="grid-item">13</div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item">36</div>
+        <div class="grid-item">1</div>
+        <div class="grid-item">2</div>
+        <div class="grid-item">3</div>
+        <div class="grid-item">4</div>
+        <div class="grid-item">5</div>
+        <div class="grid-item">6</div>
+        <div class="grid-item">7</div>
+        <div class="grid-item">8</div>
+        <div class="grid-item">9</div>
+        <div class="grid-item">10</div>
+        <div class="grid-item">11</div>
+        <div class="grid-item">12</div>
+        <div class="grid-item">13</div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item">142</div>
+        <div class="grid-item">143</div>
+        <div class="grid-item">144</div>
+    </div>
+    <!--<div id="div1" class="dropEvent" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)">
+    meeps
+        </div>
+       <div id="div2" class="dropEvent" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)">mops</div>
+       <div id="div3" class="dropEvent" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)">mice</div>-->
+    <!--<div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>
+    <div class="dropZone"> </div>-->
+</body>
+</html>
