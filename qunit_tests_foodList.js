@@ -75,7 +75,7 @@ QUnit.test("foodList-1 A Hello World Test", function (assert) {
 QUnit.test("foodList-2 The search shows up in the results for search on Apache", function (assert) {
     let done = assert.async();
     const searchTerm = "Apache";
-    const searchUrl = foodList.buildFoodListSearchUrl(searchTerm);
+    const searchUrl = foodList.buildSearchUrl(searchTerm);
     let passOrFail = false;
     const correct = qunit_tests_http.getApacheList();
 
@@ -104,7 +104,7 @@ QUnit.test("foodList-3 Obtain Total", function (assert) {
 
 QUnit.test("foodList-4 food list header is correct", function (assert) {
     const response = JSON.parse(qunit_tests_http.getApacheList());
-    let listHeader = "<div>Your search for  <span style=\"font-weight: bold; color:green\">Apache</span> found 4 items. </div> <div>";
+    let listHeader = "<div id=\"listHeaderDiv\" >Your search for  <span style=\"font-weight: bold; color:green\">Apache</span> found 4 items. </div> <div>";
     let result = foodList.formatFoodListHeader(response.list.item, response);
 
     assert.equal(result, listHeader);
@@ -128,11 +128,11 @@ QUnit.test("foodList-6 formatFoodListBody", function (assert) {
     const response = qunit_tests_foodList.apache;
 
     const correct = "<div>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(35182)>Acorn stew (Apache)</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(35187)>Tennis Bread, plain (Apache)</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(35185)>Frybread, made with lard (Apache)</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(35186)>Corned beef and potatoes in tortilla (Apache)</a>" + "</div>";
-
+        "<a href=\"#\" id=\"fetchReportBtn35182\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(35182)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">Acorn stew (Apache)</a>" +
+        "<a href=\"#\" id=\"fetchReportBtn35187\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(35187)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">Tennis Bread, plain (Apache)</a>" +
+        "<a href=\"#\" id=\"fetchReportBtn35185\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(35185)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">Frybread, made with lard (Apache)</a>" +
+        "<a href=\"#\" id=\"fetchReportBtn35186\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(35186)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">Corned beef and potatoes in tortilla (Apache)</a>" +
+        "</div>";
     let returned = foodList.formatFoodListBody(response.list.item);
     assert.deepEqual(returned, correct, "formatFoodListBody returns correctly for good input");
 
@@ -195,6 +195,6 @@ QUnit.test("foodList-10 check for correct plural for count higher than 51", func
 
     const list = food.list.item;  
     const returned = foodList.formatFoodListHeader(list, food);
-    const expected = "<div>Your search for  <span style=\"font-weight: bold; color:green\">Apache</span> found 63 items. </div> <div>"
+    const expected = "<div id=\"listHeaderDiv\" >Your search for  <span style=\"font-weight: bold; color:green\">Apache</span> found 63 items. </div> <div>"
     assert.equal(returned, expected);
 });

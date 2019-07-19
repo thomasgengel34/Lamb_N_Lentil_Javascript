@@ -88,38 +88,26 @@ const QUnitTestSet = {
             ]
         }
     },
-    noneFound: "<div>Your search for  <span style=\"font-weight: bold; color:green\">" +
-        "</span> found 0 items. </div> <div><div></div>"
+    noneFound: "<div id=\"listHeaderDiv\" >Your search found 0 items. </div>"
     ,
 
     testSetReturned:
-        "<div>Your search for  <span style=\"font-weight: bold; color:green\">" +
-        "</span> found 12 items. </div>" +
-        " <div><div>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA1</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA2</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA3</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB1</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB2</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB3</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetB1</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetB2</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetB3</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetC1</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetC2</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetC3</a>" +
+        "<div id=\"listHeaderDiv\" >" +
+        "Your search for  <span style=\"font-weight: bold; color:green\"></span> found 12 items. </div>" +
+        " <div>" +
+        "<div><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA1</a><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA2</a><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA3</a><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB1</a><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB2</a><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB3</a><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetB1</a><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetB2</a><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetB3</a><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetC1</a><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetC2</a><a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetC3</a>" +
         "</div>"
     ,
 
     testSetReturnedContainingA:
-        "<div>Your search for  <span style=\"font-weight: bold; color:green\">" +
+        "<div id=\"listHeaderDiv\" >Your search for  <span style=\"font-weight: bold; color:green\">" +
         "</span> found 6 items. </div> <div><div>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA1</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA2</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA3</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB1</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB2</a>" +
-        "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB3</a>" +
+        "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA1</a>" +
+        "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA2</a>" +
+        "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA3</a>" +
+        "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB1</a>" +
+        "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB2</a>" +
+        "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB3</a>" +
         "</div>"
 };
 
@@ -175,17 +163,17 @@ QUnit.test("ingredientSearchSubmitBtnClickListener TestSet 3   ( \"\",  \"A\",  
 
     setTimeout(async function () {
         let returned = await innerTest1();
-        const expected = "<div>Your search for  <span style=\"font-weight: bold; color:green\">" +
+        const expected = "<div id=\"listHeaderDiv\" >" +
+            "Your search for  <span style=\"font-weight: bold; color:green\">" +
             "</span> found 6 items. </div>" +
             " <div><div>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetB1</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetB2</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetB3</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetC1</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetC2</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetC3</a>" +
-            "</div>";
-
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetB1</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetB2</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetB3</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetC1</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetC2</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetC3</a>" +
+            "</div>"
         done();
         QUnit.assert.equal(returned, expected);
     });
@@ -207,15 +195,16 @@ QUnit.test("ingredientSearchSubmitBtnClickListener TestSet 4 ( \"\",  \"A\",  in
 
     setTimeout(async function () {
         let returned = await innerTest1();
-        const correct = "<div>Your search for  <span style=\"font-weight: bold; color:green\">" +
+        const correct = "<div id=\"listHeaderDiv\" >" +
+            "Your search for  <span style=\"font-weight: bold; color:green\">" +
             "</span> found 6 items. </div>" +
             " <div><div>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA1</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA2</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA3</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB1</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB2</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB3</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA1</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA2</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA3</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB1</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB2</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB3</a>" +
             "</div>";
 
         done();
@@ -368,12 +357,13 @@ QUnit.test("ingredientSearchSubmitBtnClickListener TestSet 11 ( \"A\",  \"B\", i
 
     setTimeout(async function () {
         let returned = await innerTest1();
-        const expected = "<div>Your search for  <span style=\"font-weight: bold; color:green\">" +
+        const expected = "<div id=\"listHeaderDiv\" >" +
+            "Your search for  <span style=\"font-weight: bold; color:green\">" +
             "</span> found 3 items. </div> <div><div>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB1</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB2</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetAB3</a>" +
-            "</div>";
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB1</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB2</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetAB3</a>" +
+            "</div>"
         done();
         QUnit.assert.equal(returned, expected);
     });
@@ -394,12 +384,12 @@ QUnit.test("ingredientSearchSubmitBtnClickListener TestSet 12 ( \"A\",  \"B\",  
 
     setTimeout(async function () {
         let returned = await innerTest1();
-        const expected = "<div>Your search for  <span style=\"font-weight: bold; color:green\">" +
+        const expected = "<div id=\"listHeaderDiv\" >Your search for  <span style=\"font-weight: bold; color:green\">" +
             "</span> found 3 items. </div> <div><div>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA3</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA2</a>" +
-            "<a href=\"#\" id=\"fetchReportBtn\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=fetchReport(undefined)>TestSetA1</a>" +
-            "</div>";
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA3</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA2</a>" +
+            "<a href=\"#\" id=\"fetchReportBtnundefined\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(undefined)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">TestSetA1</a>" +
+            "</div>"
         done();
         QUnit.assert.equal(returned, expected);
     });
@@ -426,12 +416,12 @@ QUnit.test("ingredientSearchSubmitBtnClickListener TestSet 13 ( \"A\",  \"C\", i
     });
 
     async function innerTest1() {
-        const response = await foodList.ingredientSearchSubmitBtnClickListener("A", "C", ui.excludeInclude.include, ui.ascendDescend.ascend, testSearchFunction); 
+        const response = await foodList.ingredientSearchSubmitBtnClickListener("A", "C", ui.excludeInclude.include, ui.ascendDescend.ascend, testSearchFunction);
         return response;
     }
 
     const testSearchFunction = async function () {
-        const returned = QUnitTestSet.testSetContainingA ; 
+        const returned = QUnitTestSet.testSetContainingA;
         return returned;
     };
 });
@@ -442,18 +432,18 @@ QUnit.test("ingredientSearchSubmitBtnClickListener TestSet 14 ( \"A\",  \"C\",ex
 
     setTimeout(async function () {
         let returned = await innerTest1();
-        const expected = QUnitTestSet.testSetReturnedContainingA ;
+        const expected = QUnitTestSet.testSetReturnedContainingA;
         done();
         QUnit.assert.equal(returned, expected);
     });
 
     async function innerTest1() {
-        const response = await foodList.ingredientSearchSubmitBtnClickListener("A", "C", ui.excludeInclude.exclude, ui.ascendDescend.ascend, testSearchFunction); 
+        const response = await foodList.ingredientSearchSubmitBtnClickListener("A", "C", ui.excludeInclude.exclude, ui.ascendDescend.ascend, testSearchFunction);
         return response;
     }
 
     const testSearchFunction = async function () {
-        const returned = QUnitTestSet.testSetContainingA; 
+        const returned = QUnitTestSet.testSetContainingA;
         return returned;
     };
 });
@@ -470,12 +460,12 @@ QUnit.test("ingredientSearchSubmitBtnClickListener TestSet 15 ( \"D\",  \"\",inc
     });
 
     async function innerTest1() {
-        const response = await foodList.ingredientSearchSubmitBtnClickListener("D", "", ui.excludeInclude.include, ui.ascendDescend.descend, testSearchFunction); 
+        const response = await foodList.ingredientSearchSubmitBtnClickListener("D", "", ui.excludeInclude.include, ui.ascendDescend.descend, testSearchFunction);
         return response;
     }
 
     const testSearchFunction = async function () {
-        const returned = QUnitTestSet.noneFound; 
+        const returned = QUnitTestSet.noneFound;
         return returned;
     };
 });
@@ -491,12 +481,12 @@ QUnit.test("ingredientSearchSubmitBtnClickListener TestSet 16 ( \"D\",  \"\", ex
     });
 
     async function innerTest1() {
-        const response = await foodList.ingredientSearchSubmitBtnClickListener("D", "", ui.excludeInclude.exclude, ui.ascendDescend.ascend, testSearchFunction); 
+        const response = await foodList.ingredientSearchSubmitBtnClickListener("D", "", ui.excludeInclude.exclude, ui.ascendDescend.ascend, testSearchFunction);
         return response;
     }
 
     const testSearchFunction = async function () {
-        const returned = QUnitTestSet.noneFound; 
+        const returned = QUnitTestSet.noneFound;
         return returned;
     };
 });
@@ -512,34 +502,33 @@ QUnit.test("ingredientSearchSubmitBtnClickListener TestSet 17 ( \"D\",  \"\", in
     });
 
     async function innerTest1() {
-        const response = await foodList.ingredientSearchSubmitBtnClickListener("D", "", ui.excludeInclude.include, ui.ascendDescend.ascend, testSearchFunction); 
+        const response = await foodList.ingredientSearchSubmitBtnClickListener("D", "", ui.excludeInclude.include, ui.ascendDescend.ascend, testSearchFunction);
         return response;
     }
 
     const testSearchFunction = async function () {
-        const returned = QUnitTestSet.noneFound; 
+        const returned = QUnitTestSet.noneFound;
         return returned;
     };
 });
 
 
 QUnit.test("ingredientSearchSubmitBtnClickListener TestSet 18 ( \"Test\",  \"est\", include,   ascend)", function (assert) {
-    let done = assert.async();  
+    let done = assert.async();
     setTimeout(async function () {
         let returned = await innerTest1();
         const expected = QUnitTestSet.testSetReturned;
-        done(); 
+        done();
         QUnit.assert.equal(returned, expected);
     });
 
     async function innerTest1() {
-        const response = await foodList.ingredientSearchSubmitBtnClickListener("Test", "est", ui.excludeInclude.include, ui.ascendDescend.ascend, testSearchFunction); 
+        const response = await foodList.ingredientSearchSubmitBtnClickListener("Test", "est", ui.excludeInclude.include, ui.ascendDescend.ascend, testSearchFunction);
         return response;
     }
 
     const testSearchFunction = async function () {
-        const returned = QUnitTestSet.testSet; 
+        const returned = QUnitTestSet.testSet;
         return returned;
     };
 });
- 

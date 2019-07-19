@@ -2,13 +2,13 @@
 
 const foodReport = {
 
-    fetchReport: function (ndbno) {
-        const report = foodReportSearchSubmit(ndbno);
-        return report;
+    fetchReport: function (ndbno) { 
+       const report = foodReport.searchSubmit(ndbno);
+       return report;
     },
 
-    foodReportSearchSubmit: async function (search) {  
-        let searchUrl = buildFoodReportSearchUrl(search);
+   searchSubmit: async function (search) {  
+        let searchUrl = foodReport.buildSearchUrl(search);
         const responseJson = await httpCall(searchUrl);
         return responseJson;
     },
@@ -26,7 +26,7 @@ const foodReport = {
         return array;
     },
 
-    buildFoodReportSearchUrl: function buildFoodReportSearchUrl(ndbno) {
+    buildSearchUrl: function buildSearchUrl(ndbno) {
         const string1 = " https://api.nal.usda.gov/ndb/V2/reports?ndbno=";
         const string2 = "&type=b&format=json&api_key=";
         const key = httpFoodList.key;

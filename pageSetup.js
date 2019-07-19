@@ -34,7 +34,7 @@ hide : function hide(division) {
     if (searchBox) {
         searchTerm = searchBox.value;
     }
-    const searchUrl = buildFoodListSearchUrl(searchTerm);
+    const searchUrl = buildSearchUrl(searchTerm);
     const response = await httpCall(searchUrl);
     let unfilteredList = [];
     if (response.list.item) {

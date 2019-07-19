@@ -7,7 +7,33 @@
     <meta name="description" content="" />
     <link href="Content/Site.css" rel="stylesheet" />
     <title>Lamb N Lentil</title>
-   
+    <style>
+        .box {
+          /*float: left;
+            width: 10px;
+            height: 10px;
+            margin: 10px;
+            padding: 10px;*/ 
+        }
+       .border {
+             border: 1px solid black;
+             min-height:40px;
+        }
+         .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+            /*background-color: #2196F3;*/
+            padding: 1px;
+        }
+
+        .grid-item {
+           /*background-color: rgba(255, 255, 255, 0.8);
+             border: 1px solid rgba(0, 0, 0, 0.8);*/
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+        }
+    </style> 
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -17,10 +43,10 @@
             </div>
         </div>
     </nav>
-
-
     <h1>Lamb 'N' Lentil</h1>
-    <div id="displayHomePage">
+
+
+    <div id="displayHomePage" draggable="true" ondragstart="dragging.drag(event)">
         <h3>Search For Ingredients</h3>
         <div class="navbar-form navbar-left ">
             <div class="form-group">
@@ -48,49 +74,170 @@
                     <button id="foodsSearchSubmitBtn" type="submit" class="btn btn-default ">Search</button>
                 </p>
             </div>
+
+            <div class="grid-container">
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+                <div class="dropEvent box grid-item" ondrop="dragging.drop(event)" ondragover="dragging.allowDrop(event)"></div>
+            </div>
         </div>
+    </div>
+    <div id="displayAboutPage">
+        <h2>USDA Ingredient Database</h2>
+        <p>Look up ingredients on :<a href="https://ndb.nal.usda.gov/ndb" target="_blank" \>the USDA nutritional site</a></p>
+        <p>Ingredients vary and information concerning them is constantly changing.  Information should be used with caution. Using this tool intelligently requires that you become informed about nutrition.</p>
+        "<p>What an individual should eat or does eat in a typical meal will of course vary with the individual.  There are many excellent tools available for computing this.  The present tool only helps in a general way.</p>
+        <h2>Regarding Serving Sizes in General</h2>
+        <p>Few people eat exactly one serving of anything,unless it is something like drinking one can of soda.  Bottle sizes vary, too, and someone may not finish a bottle, or may drink a bottle and a half. Efforts will be made to ease the computation of serving sizes as this thing develops. </p>
+        <h2>Regarding NLEA servings:</h2>
+        <h3>NLEA=Nutrition Labeling and Education Act </h3>
+        <p>A serving size must be based on the amount of food we typically eat, not what we should eat. </p>
+        <ul>
+            <li>a serving size of fruit is usually 1 medium whole fruit or ½ cup cooked, canned or dried fruit</li>
+            <li>a serving size of vegetables is usually one cup of raw or cooked leafy greens or ½ cup of higher calorie vegetables like carrots.</li>
+            <li>a serving size of potatoes, pasta or grains is ½ cup or one slice of bread</li>
+            <li>a serving of dairy is one cup of skim milk or yogurt or 1.5 ounces of cheese</li>
+            <li>a serving size of meat, fish or poultry is about 3 ounces</li>
+            <li> a serving size of oil or salad dressing is 2 teaspoons</li>
+            <li>A serving size of alcohol depends on the drink that you choose.A serving of wine is 4 ounces, a serving of beer is 12 ounces and a serving of liquor is 1.5 ounces  </li>
+        </ul>
+        <p>Source:  <a href="https://www.verywell.com/what-is-serving-size-3496390" target="_blank">https://www.verywell.com/what-is-serving-size-3496390</a></p>
+        <h2>American Diabetes Association Information</h2>
+        <p>
+            "Much helpful information (even if you or someone you know is not diabetic) can be "S"at:<br>
+            <a href="http://www.diabetes.org/ " target="_blank">American Diabetes Association</a>
+        </p>  <h2>Juvenile Diabetes Research Foundation</h2> <p>
+            Information about juvenile diabetes can be "S"at:
+            <a href="http://www.jdrf.org/ " target="_blank">Juvenile Diabetes Research Foundation</a>"
+        </p>
+    </div>
 
-        <div id="displayAboutPage">
-            <h2>USDA Ingredient Database</h2>
-            <p>Look up ingredients on :<a href="https://ndb.nal.usda.gov/ndb" target="_blank" \>the USDA nutritional site</a></p>
-            <p>Ingredients vary and information concerning them is constantly changing.  Information should be used with caution. Using this tool intelligently requires that you become informed about nutrition.</p>
-            "<p>What an individual should eat or does eat in a typical meal will of course vary with the individual.  There are many excellent tools available for computing this.  The present tool only helps in a general way.</p>
-            <h2>Regarding Serving Sizes in General</h2>
-            <p>Few people eat exactly one serving of anything,unless it is something like drinking one can of soda.  Bottle sizes vary, too, and someone may not finish a bottle, or may drink a bottle and a half. Efforts will be made to ease the computation of serving sizes as this thing develops. </p>
-            <h2>Regarding NLEA servings:</h2>
-            <h3>NLEA=Nutrition Labeling and Education Act </h3>
-            <p>A serving size must be based on the amount of food we typically eat, not what we should eat. </p>
-            <ul>
-                <li>a serving size of fruit is usually 1 medium whole fruit or ½ cup cooked, canned or dried fruit</li>
-                <li>a serving size of vegetables is usually one cup of raw or cooked leafy greens or ½ cup of higher calorie vegetables like carrots.</li>
-                <li>a serving size of potatoes, pasta or grains is ½ cup or one slice of bread</li>
-                <li>a serving of dairy is one cup of skim milk or yogurt or 1.5 ounces of cheese</li>
-                <li>a serving size of meat, fish or poultry is about 3 ounces</li>
-                <li> a serving size of oil or salad dressing is 2 teaspoons</li>
-                <li>A serving size of alcohol depends on the drink that you choose.A serving of wine is 4 ounces, a serving of beer is 12 ounces and a serving of liquor is 1.5 ounces  </li>
-            </ul>
-            <p>Source:  <a href="https://www.verywell.com/what-is-serving-size-3496390" target="_blank">https://www.verywell.com/what-is-serving-size-3496390</a></p>
-            <h2>American Diabetes Association Information</h2>
-            <p>
-                "Much helpful information (even if you or someone you know is not diabetic) can be "S"at:<br>
-                <a href="http://www.diabetes.org/ " target="_blank">American Diabetes Association</a>
-            </p>  <h2>Juvenile Diabetes Research Foundation</h2> <p>
-                Information about juvenile diabetes can be "S"at:
-                <a href="http://www.jdrf.org/ " target="_blank">Juvenile Diabetes Research Foundation</a>"
-            </p>
-        </div>
-
-        <div id="results"></div>
-        
-
-    </footer>
+    <div id="results"></div>
+    <script src="Scripts/dragging.js"></script>
     <script src="Scripts/pageSetup.js"></script>
     <script src="Scripts/ui.js"></script>
-    <script src="Scripts/foodList.js"></script> 
-    <script src="Scripts/foodReport.js"></script> 
-    
+    <script src="Scripts/foodList.js"></script>
+    <script src="Scripts/foodReport.js"></script>
+
     <script src="Scripts/httpFoodList.js"></script>
     <script src="Scripts/MinimumDailyRequirements.js"></script>
-    
+
 </body>
 </html>

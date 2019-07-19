@@ -5,7 +5,7 @@ const httpFoodList = {
     key:"sFtfcrVdSOKA4ip3Z1MlylQmdj5Uw3JoIIWlbeQm",
 
     ingredientSearchSubmit: async function ingredientSearchSubmit(search) { 
-        let searchUrl = foodList.buildFoodListSearchUrl(search);
+        let searchUrl = foodList.buildSearchUrl(search);
         const responseJson = await httpFoodList.httpCall(searchUrl); 
         return responseJson;
     },
@@ -31,11 +31,13 @@ const httpFoodList = {
     },
 
     getErrorMessage: function (searchQuery) {  
+        
         const errorMessage = "<div id=\"errorMessage\">Sorry. Something went wrong with the search. Please review it and then try again. If that does not work,  call me or something and I will look into it.</div>";
         return errorMessage;
     },
 
     checkForErrorReturned: function (json) { 
+        
         let message = ""; 
         if (JSON.stringify(json).indexOf("error") !== -1) { 
             message = this.getErrorMessage(); 

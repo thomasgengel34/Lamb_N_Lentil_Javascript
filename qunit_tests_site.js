@@ -10,16 +10,16 @@ QUnit.test("site-2 Key is correct", function (assert) {
 
 
 
-QUnit.test("site-x buildFoodListSearchUrl() Obtain Food List Search Url", function (assert) {
+QUnit.test("site-x buildSearchUrl() Obtain Food List Search Url", function (assert) {
     const searchTerm = 'ff';
-    const searchUrl = foodList.buildFoodListSearchUrl(searchTerm);
+    const searchUrl = foodList.buildSearchUrl(searchTerm);
     const correctUrl = "https://api.nal.usda.gov/ndb/search?format=json&q=ff&max=50&offset=0&api_key=sFtfcrVdSOKA4ip3Z1MlylQmdj5Uw3JoIIWlbeQm";
     assert.equal(searchUrl, correctUrl, "Obtain Food List Search Url");
 });
 
 QUnit.test("site-5 Obtain Food Report Search Url for search term ff", function (assert) {
     const searchTerm = 'ff';
-    const searchUrl = foodReport.buildFoodReportSearchUrl(searchTerm);
+    const searchUrl = foodReport.buildSearchUrl(searchTerm);
     const correctUrl = " https://api.nal.usda.gov/ndb/V2/reports?ndbno=ff&type=b&format=json&api_key=sFtfcrVdSOKA4ip3Z1MlylQmdj5Uw3JoIIWlbeQm";
     assert.equal(searchUrl, correctUrl, "");
 });

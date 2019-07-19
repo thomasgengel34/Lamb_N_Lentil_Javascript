@@ -38,7 +38,7 @@ QUnit.test("http-1 Query is correctly returned from async call on search for Apa
     let done = assert.async(3); 
     const searchTerm = "Apache";  
 
-    const searchUrl = foodList.buildFoodListSearchUrl(searchTerm); // tested in site-4
+    const searchUrl = foodList.buildSearchUrl(searchTerm); // tested in site-4
     let passOrFail = false;
 
     setTimeout(async function () {
@@ -93,7 +93,7 @@ QUnit.test("http-2  Status and Error Message are correctly returned from async c
     let done = assert.async(2);
     let correct = true;
     const searchTerm = "qqq";
-    const searchUrl = foodList.buildFoodListSearchUrl(searchTerm); // tested in site-4
+    const searchUrl = foodList.buildSearchUrl(searchTerm); // tested in site-4
 
     let passOrFail = false;
 
@@ -158,7 +158,7 @@ QUnit.test("http-2  Status and Error Message are correctly returned from async c
     QUnit.test("http-4 Query is correctly returned from async call on search for food report for  01009", function (assert) {
         let done = assert.async(3);
         const searchTerm = "01009";
-        const searchUrl = foodReport.buildFoodReportSearchUrl(searchTerm); // tested site-5
+        const searchUrl = foodReport.buildSearchUrl(searchTerm); // tested site-5
         let passOrFail = false;
 
         setTimeout(async function () {
@@ -207,7 +207,7 @@ QUnit.test("http-2  Status and Error Message are correctly returned from async c
         let done = assert.async(1);
         let correct = true;
         const searchTerm = "qqq";
-        const searchUrl =  foodList.buildFoodListSearchUrl(searchTerm);
+        const searchUrl =  foodList.buildSearchUrl(searchTerm);
 
         let passOrFail = false;
 

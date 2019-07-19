@@ -3,22 +3,17 @@
  
 const dragging = {
 
-    allowDrop: function allowDrop(ev) {
-        console.log(7);
+    allowDrop: function allowDrop(ev) { 
         ev.preventDefault();
     },
 
-    drag: function drag(ev) {
-        console.log(12); 
+    drag: function drag(ev) { 
         ev.dataTransfer.setData("text", ev.target.id);
     },
 
     drop: function drop(ev) {
-        ev.preventDefault();
-        console.log(18); 
-        var data = ev.dataTransfer.getData("text");
-        console.log(data);
-        console.log(21);
+        ev.preventDefault(); 
+        var data = ev.dataTransfer.getData("text"); 
         ev.target.appendChild(document.getElementById(data));
     }
 }; 
