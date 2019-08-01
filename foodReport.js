@@ -2,14 +2,18 @@
 
 const foodReport = {
 
-    fetchReport: function (ndbno) { 
-       const report = foodReport.searchSubmit(ndbno);
-       return report;
+    fetchReport: async function (ndbno) {
+        const responseJSON = await foodReport.searchSubmit(ndbno);
+        console.log(8);
+        console.log(responseJSON);
+        const report = foodReport.formatFoodReport(responseJSON);
+        console.log(10);
+        console.log(report);
     },
 
-   searchSubmit: async function (search) {  
+    searchSubmit: async function (search) {
         let searchUrl = foodReport.buildSearchUrl(search);
-        const responseJson = await httpCall(searchUrl);
+        const responseJson = await httpFoodList.httpCall(searchUrl);
         return responseJson;
     },
 
@@ -35,16 +39,17 @@ const foodReport = {
     },
 
     formatFoodReport: function formatFoodReport(result) {
+
         const tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
         let formattedReport = "<div class=\"foodReport\">";
         formattedReport += "<div id=\"foodReportHeaderSection\" >";
-        formattedReport += formatFoodReportHeader(result);
+        formattedReport += foodReport.formatFoodReportHeader(result);
         formattedReport += "</div>";
         formattedReport += "<div class=\"foodReportMiddleSection\">";
-        formattedReport += formatFoodReportMiddleSection(result, tab);
+        formattedReport += foodReport.formatFoodReportMiddleSection(result, tab);
         formattedReport += "</div>";
         formattedReport += "<div id=\"foodReportBottomSection\">";
-        formattedReport += formatFoodReportBottomSection(result);
+        formattedReport += foodReport.formatFoodReportBottomSection(result);
         formattedReport += "</div>";
         formattedReport += "</div>";
         formattedReport += "</div>";
@@ -52,79 +57,80 @@ const foodReport = {
     },
 
     formatFoodReportHeader: function formatFoodReportHeader(result) {
-        var headerSection = "<h1>Nutrition Facts</h1>";
+        let headerSection = "<h1>Nutrition Facts</h1>";
         headerSection += "<div class=\"hr\"></div>";
-        var name = getValue(result, 'name', 7, 'ds', 3);
+        const name = result.foods[0].food.desc.name;
         headerSection += "<br/><strong>" + name + "</strong>";
-        var qty = getValue(result, 'qty', 6, 'value', 2);
+        let qty = result.foods[0].food.nutrients[0].measures[0].label;
         qty = qty === 0 ? "" : qty;
-        var servingSize = getValue(result, 'label', 8, "eqv", 3);
-        headerSection += "<br/><strong>Serving Size: " + qty + '  ' + servingSize + "</strong>";
+        let eqv = result.foods[0].food.nutrients[0].measures[0].eqv;
+        eqv = eqv === 0 ? "" : eqv;
+        let eunit = result.foods[0].food.nutrients[0].measures[0].eunit;
+        eunit = eunit === 0 ? "" : eunit;
+        headerSection += "<br/><strong>Serving Size: " + qty + '  (' + eqv + eunit + ")</strong>";
         headerSection += "<div class= hrWide></div>";
         return headerSection;
     },
 
     formatFoodReportMiddleSection: function formatFoodReportMiddleSection(result, tab) {
         var middleSection = "<div class=\"hrWide\"></div > ";
-        middleSection += buildCaloriesBlock(middleSection, result);
+        middleSection += foodReport.buildCaloriesBlock(middleSection, result);
         middleSection += "<div class=\"hrThin\"></div>";
         middleSection += "<p id=\"percentDailyValue\">% Daily Value*</p>";
         middleSection += "<hr>";
-        middleSection += getNutritionalValueAndUnit(result, 204);
+        middleSection += foodReport.getNutritionalValueAndUnit(result, 204);
         middleSection += "<hr>";
-        middleSection += getNutritionalValueAndUnit(result, 606);
+        middleSection += foodReport.getNutritionalValueAndUnit(result, 606);
         middleSection += "<hr>";
-        middleSection += getNutritionalValueAndUnit(result, 605);
+        middleSection += foodReport.getNutritionalValueAndUnit(result, 605);
         middleSection += "<hr>";
-        middleSection += getNutritionalValueAndUnit(result, 601);
+        middleSection += foodReport.getNutritionalValueAndUnit(result, 601);
         middleSection += "<hr>";
-        middleSection += getNutritionalValueAndUnit(result, 307);
+        middleSection += foodReport.getNutritionalValueAndUnit(result, 307);
         middleSection += "<hr>";
-        middleSection += getNutritionalValueAndUnit(result, 205);
+        middleSection += foodReport.getNutritionalValueAndUnit(result, 205);
         middleSection += "<hr>";
-        middleSection += getNutritionalValueAndUnit(result, 291);
+        middleSection += foodReport.getNutritionalValueAndUnit(result, 291);
         middleSection += "<hr>";
         addNutrient(result, 269);
         middleSection += tab + tab + "The USDA database does not yet contain information on added sugars.";
         middleSection += "<hr>";
-        middleSection += getNutritionalValueAndUnit(result, 203);
+        middleSection += foodReport.getNutritionalValueAndUnit(result, 203);
         middleSection += "<div class= hrWide></div>";
         return middleSection;
 
         function addNutrient(result, n) {  // why not add this into getNutritionalValueAndUnit instead of creating another method?
-            middleSection += getNutritionalValueAndUnit(result, n);
+            middleSection += foodReport.getNutritionalValueAndUnit(result, n);
             middleSection += "<hr>";
         }
     },
 
     buildCaloriesBlock: function buildCaloriesBlock(middleSection, result) {
-        var calories = getNutritionalValue(result, 208);
+        var calories = foodReport.getNutritionalValue(result, 208);
         middleSection += "<div id=\"AmountPerServing\">Amount per serving</div>" +
             "<div id=\"Calories\">" + "Calories" +
-            "<div id=\"caloriesNumber\">" +
             calories +
-            "</div>" +
             "</div>";
         return middleSection;
     },
 
     formatFoodReportBottomSection: function formatFoodReportBottomSection(result) {
-        var vitaminD = getNutritionalValueAndUnit(result, 324);
-        var calcium = getNutritionalValueAndUnit(result, 301);
+        var vitaminD = foodReport.getNutritionalValueAndUnit(result, 324);
+        var calcium = foodReport.getNutritionalValueAndUnit(result, 301);
 
-        var bottomSection = buildBottomSectionRow(vitaminD, calcium);
+        var bottomSection = foodReport.buildBottomSectionRow(vitaminD, calcium);
         bottomSection += "<hr>";
-        var iron = getNutritionalValueAndUnit(result, 303);
-        var potassium = getNutritionalValueAndUnit(result, 306);
-        bottomSection += buildBottomSectionRow(iron, potassium);
+        var iron = foodReport.getNutritionalValueAndUnit(result, 303);
+        var potassium = foodReport.getNutritionalValueAndUnit(result, 306);
+        bottomSection += foodReport.buildBottomSectionRow(iron, potassium);
         bottomSection += "<hr>";
         bottomSection += "*The % Daily Value tells you how much a nutrient in a serving of food contributes to a daily diet." +
             "  2,000 calories a day is used for general nutrition advice.<hr> ";
-        var ingredients = getValue(result, 'ing', 14, 'upd', 3);
+        var ingredients = foodReport.getValue(result, 'ing', 14, 'upd', 3);
         bottomSection += "<br/><strong>INGREDIENTS:</strong>" + ingredients;
-        var updatedDate = getValue(result, "upd", 6, 'nutrients', 4);
+        var updatedDate = foodReport.getValue(result, "upd", 6, 'nutrients', 4);
         bottomSection += "   updated: " + updatedDate;
-        var manu = getValue(result, 'manu', 7, 'ru', 3);
+        var manu = foodReport.getValue(result, 'manu', 7, 'ru', 3);
         bottomSection += "<br/><strong>DISTRIBUTED BY:<br/>" + manu + "</strong>";
         return bottomSection;
     },
@@ -140,7 +146,6 @@ const foodReport = {
 
     getValue: function getValue(item, itemKey, foreCount, nextItem, backCount) {
 
-
         //var index = item.indexOf(itemKey);
         //var value = item.slice(index + foreCount);
         //index = value.indexOf(nextItem);
@@ -150,27 +155,32 @@ const foodReport = {
     },
 
     getNutritionalValue: function getNutritionalValue(result, id) {
-        var n = getValue(result, 'nutrient_id":"' + id, 0, '},', 0);
-        var nMeasures = getValue(n, "measures", 12, '" ]', 0);
-        var nutritionalValue = getValue(nMeasures, "value", 8, '}', 1);
-        if (!nutritionalValue) {
-            nutritionalValue = 0;
+        const measures = result.foods[0].food.nutrients;
+        const measure = measures.find(x => x.nutrient_id == id);
+        if (measure) {
+            let nutritionalValue = measure.value;
+            if (!nutritionalValue) {
+                nutritionalValue = 0;
+            }
+            return nutritionalValue + " " + measure.unit;
         }
-        return nutritionalValue;
+        return "-";
     },
 
 
     getNutritionalValueAndUnit: function getNutritionalValueAndUnit(result, id) {
+        const nutritionalValueAndUnit = this.getNutritionalValue(result, id)
 
-        var n = getValue(result, 'nutrient_id":"' + id, 0, '},', 0);
-        var nutrientName = getValue(n, ',', 9, 'derivation', 3);
+        var n = foodReport.getValue(result, 'nutrient_id":"' + id, 0, '},', 0);
+        var nutrientName = foodReport.getValue(n, ',', 9, 'derivation', 3);
         var notFound = {
             "nutrient": "none",
             "nutrient_id": -1,
             "unit": "g",
             "dv": 0
         };
-        var selected = minDailyReq.filter(val => { return val.nutrient_id === id; }) || notFound;
+        //   var selected = foodReport.minDailyReq.filter(val => { return val.nutrient_id === id; }) || notFound;
+        var selected = foodReport;//.minDailyReq.filter(val => { return val.nutrient_id === id; }) || notFound;
 
         var dv = 0;
         if (selected[0]) {
@@ -178,19 +188,19 @@ const foodReport = {
         }
 
 
-        var nMeasures = getValue(n, "measures", 12, '" ]', 0);
-        var measures = getValue(nMeasures, "value", 8, '}', 1);
-        if (!measures) {
-            measures = 0;
-        }
-        var unit = getValue(nMeasures, "eunit", 8, '",', 0);
+        var nMeasures = foodReport.getValue(n, "measures", 12, '" ]', 0);
+        //  var measures = foodReport.getValue(nMeasures, "value", 8, '}', 1);
+        //if (!measures) {
+        //    measures = 0;
+        //}
+        //  var unit = foodReport.getValue(nMeasures, "eunit", 8, '",', 0);
         var percentage = "";
         if (dv !== 0) {
             percentage = (100 * measures / dv).toFixed() + "%";
         }
 
 
-        var piece = "<strong>" + nutrientName + "</strong>  " + measures + unit + "<span class=\"rightjustify\">" + percentage + "</span>";
+        var piece = "<strong>" + nutrientName + "</strong>  " + nutritionalValueAndUnit + "<span class=\"rightjustify\">" + percentage + "</span>";
         return piece;
     },
 

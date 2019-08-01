@@ -9,7 +9,7 @@ const foodList = {
 
 
     ingredientSearchSubmitBtnClickListener: async function ingredientSearchSubmitBtnClickListener(query = "", filterString = "", excludeInclude = ui.excludeInclude.include, sortOrder = ui.ascendDescend.ascend, searchFunction = httpFoodList.ingredientSearchSubmit) {
-       
+        console.log(12);
         const settings = ui.getDataFromFoodSearchInput(query, filterString, excludeInclude, sortOrder);
         foodList.ingredientSearchSubmitBtnClickListener.searchFunction = searchFunction;
         foodList.clickListenerQueryDefaultParameter = query;
@@ -20,22 +20,22 @@ const foodList = {
         filterString = settings.filterString;
         excludeInclude = settings.excludeOrInclude;
         sortOrder = settings.sortOrder;
-       
-        let response = { "name": "initial test", "list": { "item": [] } };
-        let text = "";
-        const notFound = { "name": "initial test", "list": { "item": ["not found"] } };
 
-        response = await searchFunction(query);
-   
+        let response = { "name": "initial test", "list": { "item": [] } };
+      let text = "";
+       const notFound = { "name": "initial test", "list": { "item": ["not found"] } };
+
+       response = await searchFunction(query);
+
         let list = [];
         if (response.list && response.list.item) {
             list = response.list.item;
         }
         if (response.errors) {
-            
-            list = notFound; 
+
+            list = notFound;
         }
-   
+
         let filtered = list;
         if (!query.includes(filterString)) {
             if (query !== filterString) {
@@ -45,6 +45,7 @@ const foodList = {
             }
         }
         else if (query.includes(filterString)) {
+            console.log(48);
             if (response.list && response.list.item) {
                 filtered = response.list.item;
                 if (excludeInclude == ui.excludeInclude.include) {
@@ -52,7 +53,7 @@ const foodList = {
                     text = foodList.formatFoodList(sorted, response);
                 }
                 else if (excludeInclude == ui.excludeInclude.exclude) {
-              
+
                     text = foodList.noItemsWereFound;
                 }
             }
@@ -60,16 +61,15 @@ const foodList = {
                 text = response;
             }
         }
-     
+
         if (text.errors) {
             text = [foodList.noItemsWereFound];
         }
-        if (document) {
-            if (document.getElementById("results")) {
-                document.getElementById('results').innerHTML = text;
-            }
-        }
-        return text;
+         
+        const resultWindow = document.querySelector("#firstDrop");
+        resultWindow.innerHTML = text;
+        console.log(79);
+
     },
 
     filterList: function filterList(list = [], filterString = '', excludeInclude = ui.excludeInclude.include) {
@@ -107,12 +107,13 @@ const foodList = {
 
 
     formatFoodList: function (list, response) {
-    
+        console.log(120);
+        console.log(list);
         if (!Array.isArray(list)) {
             list = "bad value";
             return list;
         }
-        if (list.length == 0) { 
+        if (list.length == 0) {
 
             return this.noItemsWereFound;
         }
@@ -125,7 +126,7 @@ const foodList = {
 
 
 
-    formatFoodListHeader: function (list, response = { "list": [] }) { 
+    formatFoodListHeader: function (list, response = { "list": [] }) {
         const noItemsWereFound = this.noItemsWereFound;
         let searchText = "";
         let total = 0;
@@ -134,9 +135,9 @@ const foodList = {
             if (response.list.q) {
                 searchText = response.list.q;
             }
-            if (list.length) { 
+            if (list.length) {
                 total = list.length;
-                if (total==0) {
+                if (total == 0) {
                     return noItemsWereFound;
                 }
                 if (total < 51) {
@@ -146,7 +147,7 @@ const foodList = {
                     shown = total;
                 }
             }
-            else { 
+            else {
                 return noItemsWereFound;
             }
         }
@@ -157,6 +158,14 @@ const foodList = {
         if (total !== 1) {
             itemItems = " items. ";
         }
+        console.log(170);
+        console.log(response);
+        searchText = response.list.q;
+        if (!searchText) {
+            searchText = "(no search text)";
+        }
+        console.log(176);
+        console.log(searchText);
         listHeader += "Your search for  <span style=\"font-weight: bold; color:green\">" +
             searchText + "</span> found " + total + itemItems;
 
@@ -177,6 +186,8 @@ const foodList = {
     },
 
     formatFoodListBody: function (list) {
+        console.log(199);
+        console.log(list);
         const rejectMessage = "<div  id=\"listBody\">There is an error in transmitting the data back. Please try your request again.</div>";
         if (!Array.isArray(list)) {
             return rejectMessage;
@@ -186,13 +197,14 @@ const foodList = {
             let listBody = "<div>";
             if (Array.isArray(list)) {
                 list.forEach(function (entry) {
-                    listBody += "<a href=\"#\" id=\"fetchReportBtn" + entry.ndbno + "\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(" + entry.ndbno + ")  draggable=\"true\" ondragstart=\"dragging.drag(event)\">" + entry.name + "</a>";
+                    listBody += "<div><a href=\"#\" id=\"fetchReportBtn" + entry.ndbno + "\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(" + entry.ndbno + ")  draggable=\"true\" ondragstart=\"dragging.drag(event)\">" + entry.name + "</a></div>";
                 });
             }
             listBody += "</div>";
             return listBody;
         }
     },
+ 
 
     buildSearchUrl: function (search) {
         const string1 = "https://api.nal.usda.gov/ndb/search?format=json&q=";
