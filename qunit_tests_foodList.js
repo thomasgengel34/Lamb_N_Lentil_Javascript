@@ -104,7 +104,7 @@ QUnit.test("foodList-3 Obtain Total", function (assert) {
 
 QUnit.test("foodList-4 food list header is correct", function (assert) {
     const response = JSON.parse(qunit_tests_http.getApacheList());
-    let listHeader = "<div id=\"listHeaderDiv\" >Your search for  <span style=\"font-weight: bold; color:green\">Apache</span> found 4 items. </div> <div>";
+    let listHeader = "<div id=\"listHeaderDiv\" >Your search for  <span style=\"font-weight: bold; color:green\">Apache</span> found 4 items. </div>";
     let result = foodList.formatFoodListHeader(response.list.item, response);
 
     assert.equal(result, listHeader);
@@ -119,7 +119,7 @@ QUnit.test("foodList-5 food list body is correct", function (assert) {
 
     const list = qunit_tests_http.getApacheList();
     const parsedList = JSON.parse(list);
-    const result = foodList.formatFoodListBody(parsedList);
+    const result = foodList.formatFoodListBody(parsedList); 
     assert.equal(correct.replace(" ", "").valueOf, result.replace(" ", "").valueOf);
 });
 
@@ -134,11 +134,13 @@ QUnit.test("foodList-6 formatFoodListBody", function (assert) {
         "<a href=\"#\" id=\"fetchReportBtn35186\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(35186)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">Corned beef and potatoes in tortilla (Apache)</a>" +
         "</div>";
     let returned = foodList.formatFoodListBody(response.list.item);
-    assert.deepEqual(returned, correct, "formatFoodListBody returns correctly for good input");
-
+    console.log(137);
+    console.log(response.list.item);
+    assert.deepEqual(returned, correct, "formatFoodListBody returns correctly for good input"); 
     const badInput = "I am not a correctly reformed response";
     const expectedResult = "<div  id=\"listBody\">There is an error in transmitting the data back. Please try your request again.</div>";
     returned = foodList.formatFoodListBody(badInput);
+   
     assert.deepEqual(returned, expectedResult);
 
 });
@@ -195,6 +197,6 @@ QUnit.test("foodList-10 check for correct plural for count higher than 51", func
 
     const list = food.list.item;  
     const returned = foodList.formatFoodListHeader(list, food);
-    const expected = "<div id=\"listHeaderDiv\" >Your search for  <span style=\"font-weight: bold; color:green\">Apache</span> found 63 items. </div> <div>"
+    const expected = "<div id=\"listHeaderDiv\" >Your search for  <span style=\"font-weight: bold; color:green\">Apache</span> found 63 items. </div>"
     assert.equal(returned, expected);
 });

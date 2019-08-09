@@ -22,10 +22,10 @@ const foodList = {
         sortOrder = settings.sortOrder;
 
         let response = { "name": "initial test", "list": { "item": [] } };
-      let text = "";
-       const notFound = { "name": "initial test", "list": { "item": ["not found"] } };
+        let text = "";
+        const notFound = { "name": "initial test", "list": { "item": ["not found"] } };
 
-       response = await searchFunction(query);
+        response = await searchFunction(query);
 
         let list = [];
         if (response.list && response.list.item) {
@@ -45,7 +45,6 @@ const foodList = {
             }
         }
         else if (query.includes(filterString)) {
-            console.log(48);
             if (response.list && response.list.item) {
                 filtered = response.list.item;
                 if (excludeInclude == ui.excludeInclude.include) {
@@ -64,12 +63,12 @@ const foodList = {
 
         if (text.errors) {
             text = [foodList.noItemsWereFound];
-        }
-         
+        } 
         const resultWindow = document.querySelector("#firstDrop");
-        resultWindow.innerHTML = text;
-        console.log(79);
-
+        if (resultWindow) {
+            resultWindow.innerHTML = text;   // thrown away in tests  TODO: test without this condition - create it in testing
+        } 
+        return text;
     },
 
     filterList: function filterList(list = [], filterString = '', excludeInclude = ui.excludeInclude.include) {
@@ -107,8 +106,6 @@ const foodList = {
 
 
     formatFoodList: function (list, response) {
-        console.log(120);
-        console.log(list);
         if (!Array.isArray(list)) {
             list = "bad value";
             return list;
@@ -117,10 +114,14 @@ const foodList = {
 
             return this.noItemsWereFound;
         }
-        let formattedFoodList = this.formatFoodListHeader(list, response);
-        if (formattedFoodList !== this.noItemsWereFound) {
-            formattedFoodList += this.formatFoodListBody(list);
-        }
+        let formattedFoodListHeader = this.formatFoodListHeader(list, response);
+
+        let formattedFoodList = this.formatFoodListBody(list);
+        //if (formattedFoodList !== this.noItemsWereFound) {
+        //    formattedFoodList += this.formatFoodListBody(list);
+        //}
+        formattedFoodList = "<div class=\"foodListBoxWrapper\">" + formattedFoodListHeader + "<div class=\"foodListBox\">" + formattedFoodList + "</div></div>";
+      
         return formattedFoodList;
     },
 
@@ -138,7 +139,8 @@ const foodList = {
             if (list.length) {
                 total = list.length;
                 if (total == 0) {
-                    return noItemsWereFound;
+                    console.log(137);
+                    // return noItemsWereFound;
                 }
                 if (total < 51) {
                     shown = "All " + total;
@@ -158,14 +160,10 @@ const foodList = {
         if (total !== 1) {
             itemItems = " items. ";
         }
-        console.log(170);
-        console.log(response);
         searchText = response.list.q;
         if (!searchText) {
             searchText = "(no search text)";
         }
-        console.log(176);
-        console.log(searchText);
         listHeader += "Your search for  <span style=\"font-weight: bold; color:green\">" +
             searchText + "</span> found " + total + itemItems;
 
@@ -180,14 +178,12 @@ const foodList = {
                 listHeader + " are shown.";
             }
         }
-        listHeader += "</div> ";
-        listHeader += "<div>";
+        listHeader += "</div>";
+    
         return listHeader;
     },
 
     formatFoodListBody: function (list) {
-        console.log(199);
-        console.log(list);
         const rejectMessage = "<div  id=\"listBody\">There is an error in transmitting the data back. Please try your request again.</div>";
         if (!Array.isArray(list)) {
             return rejectMessage;
@@ -197,14 +193,14 @@ const foodList = {
             let listBody = "<div>";
             if (Array.isArray(list)) {
                 list.forEach(function (entry) {
-                    listBody += "<div><a href=\"#\" id=\"fetchReportBtn" + entry.ndbno + "\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(" + entry.ndbno + ")  draggable=\"true\" ondragstart=\"dragging.drag(event)\">" + entry.name + "</a></div>";
+                    listBody += "<a href=\"#\" id=\"fetchReportBtn" + entry.ndbno + "\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(" + entry.ndbno + ")  draggable=\"true\" ondragstart=\"dragging.drag(event)\">" + entry.name + "</a>";
                 });
             }
             listBody += "</div>";
             return listBody;
         }
     },
- 
+
 
     buildSearchUrl: function (search) {
         const string1 = "https://api.nal.usda.gov/ndb/search?format=json&q=";
@@ -212,10 +208,7 @@ const foodList = {
         const key = httpFoodList.key;
         const searchUrl = string1.concat(search, string2, key);
         return searchUrl;
-    }
-
-
-
+    } 
 };
 
 

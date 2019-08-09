@@ -3,12 +3,10 @@
 const foodReport = {
 
     fetchReport: async function (ndbno) {
-        const responseJSON = await foodReport.searchSubmit(ndbno);
-        console.log(8);
-        console.log(responseJSON);
-        const report = foodReport.formatFoodReport(responseJSON);
-        console.log(10);
-        console.log(report);
+        const responseJSON = await foodReport.searchSubmit(ndbno); 
+        const report = foodReport.formatFoodReport(responseJSON); 
+        const dropzone = document.querySelector('#secondDrop');
+        dropzone.innerHTML = report;
     },
 
     searchSubmit: async function (search) {
@@ -53,7 +51,7 @@ const foodReport = {
         formattedReport += "</div>";
         formattedReport += "</div>";
         formattedReport += "</div>";
-        return formattedReport + "<br/><br/>" + result;
+        return formattedReport + "<br/><br/>";
     },
 
     formatFoodReportHeader: function formatFoodReportHeader(result) {
@@ -106,18 +104,17 @@ const foodReport = {
     },
 
     buildCaloriesBlock: function buildCaloriesBlock(middleSection, result) {
-        var calories = foodReport.getNutritionalValue(result, 208);
+        var calories = foodReport.getNutritionalValueAndUnit(result, 208);
         middleSection += "<div id=\"AmountPerServing\">Amount per serving</div>" +
-            "<div id=\"Calories\">" + "Calories" +
+            "<div id=\"Calories\">" + "Calories "+
             calories +
             "</div>";
         return middleSection;
     },
 
     formatFoodReportBottomSection: function formatFoodReportBottomSection(result) {
-        var vitaminD = foodReport.getNutritionalValueAndUnit(result, 324);
-        var calcium = foodReport.getNutritionalValueAndUnit(result, 301);
-
+        const vitaminD = foodReport.getNutritionalValueAndUnit(result, 324);
+        const calcium = foodReport.getNutritionalValueAndUnit(result, 301); 
         var bottomSection = foodReport.buildBottomSectionRow(vitaminD, calcium);
         bottomSection += "<hr>";
         var iron = foodReport.getNutritionalValueAndUnit(result, 303);
@@ -125,13 +122,20 @@ const foodReport = {
         bottomSection += foodReport.buildBottomSectionRow(iron, potassium);
         bottomSection += "<hr>";
         bottomSection += "*The % Daily Value tells you how much a nutrient in a serving of food contributes to a daily diet." +
-            "  2,000 calories a day is used for general nutrition advice.<hr> ";
-        var ingredients = foodReport.getValue(result, 'ing', 14, 'upd', 3);
+            "  2,000 calories a day is used for general nutrition advice.<hr> ";  
+       
+        let ingredients=  "---";
+        if (result.foods[0].food.ing && result.foods[0].food.ing.desc) {
+            ingredients = result.foods[0].food.ing.desc;
+        } 
         bottomSection += "<br/><strong>INGREDIENTS:</strong>" + ingredients;
-        var updatedDate = foodReport.getValue(result, "upd", 6, 'nutrients', 4);
-        bottomSection += "   updated: " + updatedDate;
-        var manu = foodReport.getValue(result, 'manu', 7, 'ru', 3);
-        bottomSection += "<br/><strong>DISTRIBUTED BY:<br/>" + manu + "</strong>";
+        let updatedDate = "---";  
+            if (result.foods[0].food.ing && result.foods[0].food.ing.upd) {
+                updatedDate = result.foods[0].food.ing.upd;
+        }
+        bottomSection += "<br/>   updated: " + updatedDate;  
+        var manu = result.foods[0].food.desc.manu||"---";
+        bottomSection += "<br/><strong>DISTRIBUTED BY:<br/>" + manu + "</strong>"; 
         return bottomSection;
     },
 
@@ -143,67 +147,22 @@ const foodReport = {
         row += "</div>";
         return row;
     },
-
-    getValue: function getValue(item, itemKey, foreCount, nextItem, backCount) {
-
-        //var index = item.indexOf(itemKey);
-        //var value = item.slice(index + foreCount);
-        //index = value.indexOf(nextItem);
-        //value = value.slice(0, index - backCount); 
-        //return value;
-
-    },
-
-    getNutritionalValue: function getNutritionalValue(result, id) {
-        const measures = result.foods[0].food.nutrients;
-        const measure = measures.find(x => x.nutrient_id == id);
-        if (measure) {
-            let nutritionalValue = measure.value;
+     
+    getNutritionalValueAndUnit: function getNutritionalValueAndUnit(result, id) {
+        const nutrients = result.foods[0].food.nutrients;
+        const nutrient = nutrients.find(x => x.nutrient_id == id);
+        
+      
+        if (nutrient) {  
+            let nutritionalValue = nutrient.value;
             if (!nutritionalValue) {
                 nutritionalValue = 0;
             }
-            return nutritionalValue + " " + measure.unit;
+            return nutrient.name+" "+ nutritionalValue + " " + nutrient.unit;
         }
-        return "-";
+        return "---";
     },
-
-
-    getNutritionalValueAndUnit: function getNutritionalValueAndUnit(result, id) {
-        const nutritionalValueAndUnit = this.getNutritionalValue(result, id)
-
-        var n = foodReport.getValue(result, 'nutrient_id":"' + id, 0, '},', 0);
-        var nutrientName = foodReport.getValue(n, ',', 9, 'derivation', 3);
-        var notFound = {
-            "nutrient": "none",
-            "nutrient_id": -1,
-            "unit": "g",
-            "dv": 0
-        };
-        //   var selected = foodReport.minDailyReq.filter(val => { return val.nutrient_id === id; }) || notFound;
-        var selected = foodReport;//.minDailyReq.filter(val => { return val.nutrient_id === id; }) || notFound;
-
-        var dv = 0;
-        if (selected[0]) {
-            dv = selected[0].dv || 0;
-        }
-
-
-        var nMeasures = foodReport.getValue(n, "measures", 12, '" ]', 0);
-        //  var measures = foodReport.getValue(nMeasures, "value", 8, '}', 1);
-        //if (!measures) {
-        //    measures = 0;
-        //}
-        //  var unit = foodReport.getValue(nMeasures, "eunit", 8, '",', 0);
-        var percentage = "";
-        if (dv !== 0) {
-            percentage = (100 * measures / dv).toFixed() + "%";
-        }
-
-
-        var piece = "<strong>" + nutrientName + "</strong>  " + nutritionalValueAndUnit + "<span class=\"rightjustify\">" + percentage + "</span>";
-        return piece;
-    },
-
+     
     displayTotal: function (usdaFoodList) {
         var index = usdaFoodList.indexOf('total');
         var total = usdaFoodList.slice(index + 8, 100);
