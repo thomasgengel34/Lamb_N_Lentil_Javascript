@@ -134,8 +134,7 @@ QUnit.test("foodList-6 formatFoodListBody", function (assert) {
         "<a href=\"#\" id=\"fetchReportBtn35186\"  type=\"submit\" class=\"fetchReportBtn\"   onclick=foodReport.fetchReport(35186)  draggable=\"true\" ondragstart=\"dragging.drag(event)\">Corned beef and potatoes in tortilla (Apache)</a>" +
         "</div>";
     let returned = foodList.formatFoodListBody(response.list.item);
-    console.log(137);
-    console.log(response.list.item);
+   
     assert.deepEqual(returned, correct, "formatFoodListBody returns correctly for good input"); 
     const badInput = "I am not a correctly reformed response";
     const expectedResult = "<div  id=\"listBody\">There is an error in transmitting the data back. Please try your request again.</div>";

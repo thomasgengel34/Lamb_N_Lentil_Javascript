@@ -159,6 +159,7 @@ QUnit.test("http-2  Status and Error Message are correctly returned from async c
         let done = assert.async(3);
         const searchTerm = "01009";
         const searchUrl = foodReport.buildSearchUrl(searchTerm); // tested site-5
+        console.log(162); console.log(searchUrl);
         let passOrFail = false;
 
         setTimeout(async function () {

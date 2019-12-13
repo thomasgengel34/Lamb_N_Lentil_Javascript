@@ -1,6 +1,11 @@
 ﻿"use strict";
 const foodList = {
-    noItemsWereFound: "<div id=\"listHeaderDiv\" >Your search found 0 items. </div>",
+    noItemsWereFound: function (searchText) {
+        if (!searchText || searchText == "  ") {
+            searchText = "-- no text --";
+        }
+        return "<div id=\"listHeaderDiv\" class=\"foodListBoxWrapper\" >Your search for " + searchText + " found 0 items. </div>"
+    },
 
     clickListenerQueryDefaultParameter: "query initial value for testing",
     clickListenerFilterStringDefaultParameter: "filter string initial value for testing",
@@ -9,14 +14,15 @@ const foodList = {
 
 
     ingredientSearchSubmitBtnClickListener: async function ingredientSearchSubmitBtnClickListener(query = "", filterString = "", excludeInclude = ui.excludeInclude.include, sortOrder = ui.ascendDescend.ascend, searchFunction = httpFoodList.ingredientSearchSubmit) {
-        console.log(12);
+
         const settings = ui.getDataFromFoodSearchInput(query, filterString, excludeInclude, sortOrder);
         foodList.ingredientSearchSubmitBtnClickListener.searchFunction = searchFunction;
-        foodList.clickListenerQueryDefaultParameter = query;
+        foodList.clickListenerQueryDefaultParameter = query; 
         foodList.clickListenerFilterStringDefaultParameter = filterString;
         foodList.clickListenerSortOrderDefaultParameter = sortOrder;
         foodList.clickListenerSearchFunctionDefaultParameter = searchFunction;
         query = settings.searchString;
+        query = foodList.cleanQuery(query);
         filterString = settings.filterString;
         excludeInclude = settings.excludeOrInclude;
         sortOrder = settings.sortOrder;
@@ -24,18 +30,17 @@ const foodList = {
         let response = { "name": "initial test", "list": { "item": [] } };
         let text = "";
         const notFound = { "name": "initial test", "list": { "item": ["not found"] } };
-
+       
         response = await searchFunction(query);
-
+        
         let list = [];
-        if (response.list && response.list.item) {
+        if (response && response.list && response.list.item) {
             list = response.list.item;
         }
-        if (response.errors) {
+        if (response && response.errors) {
 
             list = notFound;
         }
-
         let filtered = list;
         if (!query.includes(filterString)) {
             if (query !== filterString) {
@@ -45,29 +50,32 @@ const foodList = {
             }
         }
         else if (query.includes(filterString)) {
-            if (response.list && response.list.item) {
+            if (response && response.list && response.list.item) {
                 filtered = response.list.item;
                 if (excludeInclude == ui.excludeInclude.include) {
                     const sorted = foodList.sortList(filtered, sortOrder);
                     text = foodList.formatFoodList(sorted, response);
                 }
                 else if (excludeInclude == ui.excludeInclude.exclude) {
-
-                    text = foodList.noItemsWereFound;
+                    text = foodList.noItemsWereFound(response.list.q);
                 }
             }
             else {
-                text = response;
+                const value = {
+                    "list": { "q": query }
+                };
+                text = foodList.formatFoodList([], value);
+
             }
         }
 
         if (text.errors) {
-            text = [foodList.noItemsWereFound];
-        } 
-        const resultWindow = document.querySelector("#firstDrop");
+            text = foodList.noItemsWereFound();
+        }
+        const resultWindow = document.querySelector("#gridContainer div:first-child");
         if (resultWindow) {
             resultWindow.innerHTML = text;   // thrown away in tests  TODO: test without this condition - create it in testing
-        } 
+        }
         return text;
     },
 
@@ -111,8 +119,8 @@ const foodList = {
             return list;
         }
         if (list.length == 0) {
-
-            return this.noItemsWereFound;
+            const query = response.list ? (response.list.q ? response.list.q : "") : "-- no text --";
+            return this.noItemsWereFound(query);
         }
         let formattedFoodListHeader = this.formatFoodListHeader(list, response);
 
@@ -121,14 +129,14 @@ const foodList = {
         //    formattedFoodList += this.formatFoodListBody(list);
         //}
         formattedFoodList = "<div class=\"foodListBoxWrapper\">" + formattedFoodListHeader + "<div class=\"foodListBox\">" + formattedFoodList + "</div></div>";
-      
+
         return formattedFoodList;
     },
 
 
+    formatFoodListHeader: function (list, response = { "query": "empty", "list": [] }) {
 
-    formatFoodListHeader: function (list, response = { "list": [] }) {
-        const noItemsWereFound = this.noItemsWereFound;
+        const noItemsWereFound = this.noItemsWereFound(response.list.q);
         let searchText = "";
         let total = 0;
         let shown = 50;
@@ -138,10 +146,7 @@ const foodList = {
             }
             if (list.length) {
                 total = list.length;
-                if (total == 0) {
-                    console.log(137);
-                    // return noItemsWereFound;
-                }
+
                 if (total < 51) {
                     shown = "All " + total;
                 }
@@ -153,7 +158,9 @@ const foodList = {
                 return noItemsWereFound;
             }
         }
-
+        else {
+            return noItemsWereFound;
+        }
 
         let listHeader = "<div id=\"listHeaderDiv\" >";
         let itemItems = " item. ";
@@ -161,9 +168,10 @@ const foodList = {
             itemItems = " items. ";
         }
         searchText = response.list.q;
-        if (!searchText) {
-            searchText = "(no search text)";
+        if (searchText == " " || !searchText) {
+            searchText = "- no text -";
         }
+
         listHeader += "Your search for  <span style=\"font-weight: bold; color:green\">" +
             searchText + "</span> found " + total + itemItems;
 
@@ -179,7 +187,7 @@ const foodList = {
             }
         }
         listHeader += "</div>";
-    
+
         return listHeader;
     },
 
@@ -208,7 +216,18 @@ const foodList = {
         const key = httpFoodList.key;
         const searchUrl = string1.concat(search, string2, key);
         return searchUrl;
-    } 
+    },
+
+    cleanQuery: function (query) { 
+        if (query == '-'
+            || query == '?'
+            || query == '&'
+            || query == '%'
+            || query == '=') {
+            query = '';
+        } 
+        return query;
+    }
 };
 
 

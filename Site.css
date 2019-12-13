@@ -1,4 +1,4 @@
-﻿html, body, h1, h2, h3, h4, h5, h6, table, a, nav, #results>#listBody {
+﻿html, body, h1, h2, h3, h4, h5, h6, table, a, nav, #results > #listBody {
     font-family: 'Lucida Handwriting';
     color: green;
     background-color: lightgoldenrodyellow;
@@ -11,21 +11,55 @@ a {
     text-decoration: underline;
 }
 
+
 footer {
     border: green 1px solid;
     background-color: white;
 }
 
-#displayHomePage { 
+#displayHomePage {
     width: 33%;
 }
- 
 
-#displayAboutPage { 
+
+#displayAboutPage {
     display: none;
 }
+.calorieCount{
+    margin-top:-6%;
+}
 
+ .calorieText {
+            float:left;
+            font-size:60%;
+            margin-top:4%;
+        }
+  
+.foodListBoxWrapper {
+    width:400px;
+    background-color: white;
+    border: solid 1px black;
+}
+
+
+.foodListBox { 
+    height:200px;
+    width:400px;
+    overflow-y:scroll; 
+     overflow-x:hidden;
+     /*z-index:20;*/
     
+}
+
+.foodListBox div {
+    width: 400px;
+    margin-left:0;
+    text-align:left;
+}
+
+.foodListBox a {
+    width:350px;
+}
 
 
 .rightjustify {
@@ -36,21 +70,29 @@ footer {
     float: left;
 }
 
+.floatRight {
+    float: right;
+}
 
 .third {
     width: 33%;
 }
 
-.center { 
+.center {
     text-align: center;
 }
 
 .foodReport {
     font-family: Arial;
-    background-color: white; 
+    background-color: white;
     color: black;
     padding: 15px;
-    width: 40%;
+    min-height: 800px;
+    width: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    font-size: medium;
+    text-align: left;
 }
 
     .foodReport h1 {
@@ -68,9 +110,15 @@ footer {
     .foodReport .hrWide {
         background-color: black;
         min-height: 5px;
-        margin-top: 0;
+         margin-top: 0;  
     }
 
+    .foodReport .hrWide1 {
+        background-color: black;
+        min-height: 5px;
+        margin-top: 2%;
+        margin-bottom: 2%;
+    }
     .foodReport .hrThin {
         background-color: black;
         min-height: 5px;
@@ -79,6 +127,8 @@ footer {
 
     .foodReport #AmountPerServing {
         font-weight: bold;
+        margin-top:1%;
+        margin-bottom:0;
     }
 
     .foodReport #Calories {
@@ -86,10 +136,14 @@ footer {
         font-weight: bold;
         padding-bottom: 0;
         margin-bottom: 0;
+        text-align:right;
+        width:100%;
     }
 
     .foodReport #percentDailyValue {
         text-align: right;
+        margin-top:1%;
+        margin-bottom:1%;
     }
 
 
@@ -101,14 +155,14 @@ footer {
         margin-top: -3%;
     }
 
-/*#results > :first-child {
-    border: 1px black solid;
-    color: black;
-    background-color: white;
-    font-family: Arial;
-   
-}*/
+ 
 
+ .box{ 
+  overflow:visible;
+    /* width:100px; 
+  height:100px;*/
+}
+ 
 .fetchReportBtn {
     display: block;
     width: 100%;
@@ -121,10 +175,51 @@ footer {
 #results #errorMessage {
     width: 40%;
     color: red;
-    border: 1px solid red; 
+    border: 1px solid red;
     font-family: Arial;
     margin: 5%;
     padding: 5%;
 }
 
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 140px;
+    background-color: white;
+    text-align: left;
+    padding: 5px 0;
+    border: groove green;
+    border-radius: 6px;
+    
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.draggee {
+    background-color: yellow;
+}
+
+
+.border {
+    border: 1px solid black;
+    min-height: 40px;
+} 
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+   
+    padding: 1px;
+}
+
+.grid-item { 
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+ 
 

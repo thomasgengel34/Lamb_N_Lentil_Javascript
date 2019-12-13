@@ -1,5 +1,4 @@
-﻿/// <reference path="qunit_tests_foodlist.js" />
-"use strict";
+﻿ "use strict";
  
 const dragging = {
 
@@ -13,7 +12,8 @@ const dragging = {
 
     drop: function drop(ev) {
         ev.preventDefault(); 
-        var data = ev.dataTransfer.getData("text"); 
+        const data = ev.dataTransfer.getData("text");  
+
         ev.target.appendChild(document.getElementById(data));
     }
 }; 

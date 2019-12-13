@@ -6,16 +6,17 @@ const httpFoodList = {
 
     ingredientSearchSubmit: async function ingredientSearchSubmit(search) { 
         let searchUrl = foodList.buildSearchUrl(search);
+        
         const responseJson = await httpFoodList.httpCall(searchUrl); 
         return responseJson;
     },
 
     res: { "status": -1 },
 
-    httpCall: async function httpCall(searchUrl) {  
+    httpCall: async function httpCall(searchUrl) {    
        const requestOptions = {
              method: 'GET',
-           headers: { 'Content-Type': 'application/json' },  
+           headers: { 'Content-Type': 'application/json'},  
            mode: 'cors',
            cache: 'default'
         }; 
